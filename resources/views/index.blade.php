@@ -6,17 +6,19 @@
 @if (!empty($holidays_show))
   <div class="popup">
     <a class="chiudi"><i class="fas fa-times"></i></a>
-    <h2>Ciao ti vorrei segnalare questi eventi recenti:</h2>
-    <h3>
-      @if (isset($holidays_show['ieri']))
-        Ieri: {{$holidays_show['ieri']->descrizione }}
-      @endif
-    </h3>
-    <h3>
-      @if (isset($holidays_show['oggi']))
-        Oggi: {{$holidays_show['oggi']->descrizione }}
-      @endif
-    </h3>
+    @if (isset($holidays_show['ieri']) || (isset($holidays_show['oggi'])))
+      <h2>Ciao ti vorrei segnalare questi eventi recenti:</h2>
+      <h3>
+        @if (isset($holidays_show['ieri']))
+          Ieri: {{$holidays_show['ieri']->descrizione }}
+        @endif
+      </h3>
+      <h3>
+        @if (isset($holidays_show['oggi']))
+          Oggi: {{$holidays_show['oggi']->descrizione }}
+        @endif
+      </h3>
+    @endif
     <h3>In questi giorni hai questi eventi:</h3>
     <ul>
       @foreach ($holidays_show as $holiday_show => $holiday)
