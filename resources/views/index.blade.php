@@ -2,93 +2,109 @@
 
 @section('main-content')
 
-{{-- Popup --}}
-@if (isset($holidays_show))
+{{-- ------------------------------------------ Popup ------------------------------------------ --}} 
+@if (!empty($holidays_show))
   <div class="popup">
     <a class="chiudi"><i class="fas fa-times"></i></a>
     <h2>Ciao ti vorrei segnalare questi eventi recenti:</h2>
     <h3>
       @if (isset($holidays_show['ieri']))
-        Ieri: {{$holidays_show['ieri']->descrizione }}({{ $holidays_show['ieri']->giorno }}/{{ $holidays_show['ieri']->mese }}/{{ $holidays_show['ieri']->anno }})
+        Ieri: {{$holidays_show['ieri']->descrizione }}
       @endif
     </h3>
     <h3>
       @if (isset($holidays_show['oggi']))
-        Oggi: {{$holidays_show['oggi']->descrizione }}({{ $holidays_show['oggi']->giorno }}/{{ $holidays_show['oggi']->mese }}/{{ $holidays_show['ieri']->anno }})
+        Oggi: {{$holidays_show['oggi']->descrizione }}
       @endif
     </h3>
     <h3>In questi giorni hai questi eventi:</h3>
     <ul>
       @foreach ($holidays_show as $holiday_show => $holiday)
-
+      
         {{-- Escludere ieri e oggi dai risultati --}}
-        @if (!($holiday_show == 'ieri' || $holiday_show == 'oggi'))
-            <li><strong>{{ $holiday->descrizione }}({{ $holiday->giorno }}/{{ $holiday->mese }}/{{ $holiday->anno }})</strong></li>
+        @if (!($holiday_show === 'ieri' || $holiday_show === 'oggi'))
+          <li><strong>{{ $holiday->descrizione }}({{ $holiday->giorno }}/{{ $holiday->mese }}/{{ $holiday->anno }})</strong></li>
         @endif
         
       @endforeach
     </ul>
   </div>  
 @endif
+{{-- ------------------------------------------Fine Popup ------------------------------------------ --}} 
 
 
-{{-- Aggiunta nuovo evento --}}
+{{-- ----------------------------------- Aggiunta nuovo evento ------------------------------------- --}}
 <h1 class="center red">Aggiungi nuovo evento</h1>
 
 <form class="form-horizontal" action="{{ route('holidays.store') }}" method="post">
 @csrf
 @method('POST')
 
-<fieldset class="tabella_create">
+  <fieldset class="tabella_create">
 
-<!-- Creare nuovo evento -->
-<legend class="center red bg-black">Inserisci Evento</legend>
+    <!-- Creare nuovo evento -->
+    <legend class="center red bg-black">Inserisci Evento</legend>
 
-<div class="center">
-    <label>Data:</label>  
-    <input name="data" type="date"><br>
+    <div class="center">
 
-    <label>Evento:</label>  
-    <input name="descrizione" type="text"><br>
+      {{-- Data --}}
+      <label>Data:</label>  
+      <input name="data" type="date"><br>
 
-    <label>Ogni anno?</label>
-    <label>
-    <input type="radio" name="ogni_anno" value="1" checked="checked">Si</label> 
-    <label>
-    <input type="radio" name="ogni_anno" value="2">No</label><br><br>
+      {{-- Evento --}}
+      <label>Evento:</label>  
+      <input name="descrizione" type="text"><br>
 
-    <input class="bg-red" type="submit" value="Inserisci">
-</div>
+      {{-- Si ripete ogni anno(facoltativo) --}}
+      <input type="checkbox" id="ogni_anno">
+      <label>Ogni anno?</label>
+      <label>
+      <input id="ogni_anno_1" type="radio" name="ogni_anno" value="1" disabled>Si</label> 
+      <label>
+      <input id="ogni_anno_2" type="radio" name="ogni_anno" value="2" disabled>No</label><br><br>
 
-</fieldset>
+      {{-- Invio dati --}}
+      <input class="bg-red" type="submit" value="Inserisci">
+    </div>
+
+  </fieldset>
 </form>
+{{-- --------------------------------- Fine Aggiunta nuovo evento ------------------------------------- --}}
 
-{{-- Lista eventi --}}
+{{-- --------------------------------------- Lista eventi --------------------------------------------- --}}
 <h1 class="center red">Lista feste</h1>
 
 <div class="flex">
 
-  {{-- Filtrare gli eventi --}}
+  {{-- ---------------------------------- Filtrare gli eventi ----------------------------------------- --}}
   <form class="form-left" action="{{ route('holidays.filter') }}" method="post">
   @csrf
   @method('POST')
+
+  {{-- Per data --}}
   <h3>
     <input type="checkbox" id="filtroData" value="data">
-    Data da: <input id="startDate" name="start_date" type="date"> 
-    a <input id="endDate" name="end_date" type="date"><br>
+    Data da: <input id="startDate" name="start_date" type="date" disabled> 
+    a <input id="endDate" name="end_date" type="date" disabled><br>
     Cerca negli anni? 
-    <input id="anni_si" type="radio" name="perAnni" value="si" checked="checked">Si</label>
-    <input id="anni_no" type="radio" name="perAnni" value="no">No</label></h3>
-  <h3>
-    <input type="checkbox" id="filtroEvento" value="evento">
-    Evento: <input id="evento" name="descrizione" type="text"></h3>
+    <input id="anni_si" type="radio" name="perAnni" value="si" checked="checked" disabled>Si</label>
+    <input id="anni_no" type="radio" name="perAnni" value="no" disabled>No</label>
+  </h3>
 
+  {{-- Per evento --}}
+  <h3>
+    
+    <input type="checkbox" id="filtroEvento" value="evento">
+    Evento: <input id="evento" name="descrizione" type="text" disabled>
+  </h3>
+
+  {{-- Invio e reset dati --}}
   <input class="bg-red" type="submit" value="Filtra">
   <button class="reset bg-blue">Reset</button>
   </form>
   
 
-  {{-- Ordinazione gli eventi --}}
+  {{-- ------------------------------- Ordinazione gli eventi ----------------------------------------- --}}
   <form class="form-right" action="{{ route('holidays.order') }}" method="post">
   @csrf
   @method('POST')
@@ -105,7 +121,7 @@
 </div>
 
 
-{{-- Elenco eventi --}}
+{{-- --------------------------------- Tabella Elenco degli eventi ------------------------------------- --}}
 <table class="center lista" border="1">
   <tr>
     <th>Data</th>

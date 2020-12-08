@@ -10,8 +10,5 @@
         </tr>
     </table>
 
-    
-
-
 </body>
 @endsection

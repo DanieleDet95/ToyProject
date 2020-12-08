@@ -9,24 +9,33 @@ $(document).ready(function() {
   });
 
   // Funzione per disabilitare gli input
+  $('#ogni_anno').on('change', function(){
+      if(this.checked){
+        $('#ogni_anno_1').attr("disabled", false);
+        $('#ogni_anno_2').attr("disabled", false);
+      } else {
+        $('#ogni_anno_1').attr("disabled", true);
+        $('#ogni_anno_2').attr("disabled", true);
+      }
+  });
   $('#filtroData').on('change', function(){
       if(this.checked){
-        $('#startDate').attr("disabled", true);
-        $('#endDate').attr("disabled", true);
-        $('#anni_si').attr("disabled", true);
-        $('#anni_no').attr("disabled", true);
-      } else {
         $('#startDate').attr("disabled", false);
         $('#endDate').attr("disabled", false);
         $('#anni_si').attr("disabled", false);
         $('#anni_no').attr("disabled", false);
+      } else {
+        $('#startDate').attr("disabled", true);
+        $('#endDate').attr("disabled", true);
+        $('#anni_si').attr("disabled", true);
+        $('#anni_no').attr("disabled", true);
       }
   });
   $('#filtroEvento').on('change', function(){
       if(this.checked){
-        $('#evento').attr("disabled", true);
-      } else {
         $('#evento').attr("disabled", false);
+      } else {
+        $('#evento').attr("disabled", true);
       }
   });
 

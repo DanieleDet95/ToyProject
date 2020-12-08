@@ -1,4 +1,10 @@
 //Generali
+button {
+    padding: 5px 15px;
+}
+input[type="submit"] {
+    padding: 5px 15px;
+}
 .center {
     text-align: center;
 }
@@ -87,7 +93,8 @@ body {
 .tabella_create {
     background-color: lightgray;
     legend {
-        border-radius: 5px;
+        border-radius: 25px;
+        padding: 10px;
     }
 }
 

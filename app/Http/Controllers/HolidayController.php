@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\DB;
 use App\Holiday;
 use Carbon\Carbon;
 
+use function PHPUnit\Framework\isEmpty;
+
 class HolidayController extends Controller
 {
     /**
@@ -16,8 +18,11 @@ class HolidayController extends Controller
      */
     public function index()
     {
+        // Ordino gli eventi cronologicamente per visualizzarli in ordine
         $holidays = DB::table('holidays')
-            ->orderBy('created_at', 'DESC')
+            ->orderBy('anno', 'ASC')
+            ->orderBy('mese', 'ASC')
+            ->orderBy('giorno', 'ASC')
             ->get();
 
         // Creare variabile data giorno prima di ieri
@@ -46,8 +51,11 @@ class HolidayController extends Controller
                 }
             }
         }
-        // sort($holidays_show);
 
+        // Come scritto sulla traccia visualizzare gli eventi in ordine di creazione
+        $holidays = DB::table('holidays')
+            ->orderBy('created_at', 'DESC')
+            ->get();
 
         return view('index', compact('holidays', 'holidays_show'));
     }
@@ -82,7 +90,14 @@ class HolidayController extends Controller
         $new_holiday->mese = $data->month;
         $new_holiday->anno = $data->year;
         $new_holiday->descrizione = $form_data['descrizione'];
-        $new_holiday->ogni_anno = $form_data['ogni_anno'];
+
+        // Se non é settato ogni anno dare valore 2(no) 
+        if (isset($form_data['ogni_anno'])) {
+            $new_holiday->ogni_anno = $form_data['ogni_anno'];
+        } else {
+            $new_holiday->ogni_anno = 2;
+        }
+
         $new_holiday->created_at = Carbon::now()->toDateTimeString();
         $new_holiday->updated_at = Carbon::now()->toDateTimeString();
 
