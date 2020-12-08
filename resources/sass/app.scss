@@ -1,0 +1,114 @@
+//Generali
+.center {
+    text-align: center;
+}
+.red {
+    color: red;
+}
+.bg-black {
+    background-color: black;
+}
+.bg-red {
+    background-color: red;
+}
+.bg-blue {
+    background-color: cornflowerblue;
+}
+.w-100 {
+    width: 100%;
+}
+.text-dec-none {
+    text-decoration: none;
+}
+// Home
+.titolo {
+    font-size: 75px;
+}
+.entra {
+    margin: 0 auto;
+    td {
+        padding: 25px;
+        background: red;
+        a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+        }
+    }
+}
+
+// Index
+body {
+    width: auto;
+    background-color: white;
+    color: #636b6f;
+    font-family: "Nunito", sans-serif;
+    font-weight: 200;
+    margin: 0;
+    margin-bottom: 50px;
+}
+
+// Popup
+.popup {
+    position: relative;
+    background-color: red;
+    width: 70%;
+    margin: 20px auto;
+    padding: 20px;
+    border-radius: 20px;
+    .chiudi {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-size: 20px;
+        cursor: pointer;
+    }
+}
+@media screen and (max-width: 799px) {
+    .popup {
+        position: relative;
+        background-color: red;
+        width: 90%;
+        margin: 10px auto;
+        padding: 10px;
+        border-radius: 20px;
+        font-size: 15px;
+        .chiudi {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    }
+}
+
+// Form creazione
+.tabella_create {
+    background-color: lightgray;
+    legend {
+        border-radius: 5px;
+    }
+}
+
+// Filtro e ordinamento
+.flex {
+    display: flex;
+    justify-content: space-between;
+    .form-left {
+        width: 65%;
+        padding: 10px;
+    }
+    .form-rigth {
+        width: 35%;
+        padding: 10px;
+    }
+}
+
+// Lista risultati
+.lista {
+    margin: 0 auto;
+    td {
+        max-width: 200px;
+    }
+}
