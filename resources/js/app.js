@@ -3,6 +3,12 @@ var $ = require('jquery');
 
 $(document).ready(function() {
 
+  window.onload = function(){
+    setTimeout(function(){
+      $(".popup").css("display", "block");
+    }, 5000);
+  };
+
   // Funzione per chiusere il popup
   $('.chiudi').on('click', function(){
     $('.popup').fadeOut();
@@ -39,12 +45,13 @@ $(document).ready(function() {
       }
   });
 
-  // funzione per copiare negli appunti
+  // Funzione per copiare negli appunti
   $('.copia').on('click', function(){
     var giorno = $(this).siblings(".giorno").val();
     var mese = $(this).siblings(".mese").val();
     var anno = $(this).siblings(".anno").val();
     var evento = $(this).siblings(".evento").val();
+
     if (mese == 1) {
       mese = 'Gennaio';
     } else if(mese == 2) {
@@ -70,12 +77,18 @@ $(document).ready(function() {
     }else if(mese == 12) {
       mese = 'Dicembre';
     }
-    var descrizione = evento+'-'+giorno+' '+mese+' '+anno;
-    window.prompt("Copy to clipboard: Ctrl+C, Enter", descrizione);
-    
-    // descrizione.select();
-    // descrizione.setSelectionRange(0, 99999);
-    // document.execCommand("copy");
+    var descrizione = evento+' - '+giorno+' '+mese+' '+anno;
 
+    // Creo un input d'appoggio nascosto per inserire la stringa da copiare
+    // e una volta copiata la elimino
+    var tempItem = document.createElement('input');
+    tempItem.setAttribute('type','text');
+    tempItem.setAttribute('display','none');
+    tempItem.setAttribute('value',descrizione);
+    document.body.appendChild(tempItem); 
+    tempItem.select();
+    document.execCommand('Copy');
+
+    tempItem.parentElement.removeChild(tempItem);
   });
 });

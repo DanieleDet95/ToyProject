@@ -30219,7 +30219,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 var $ = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
 
 $(document).ready(function () {
-  // Funzione per chiusere il popup
+  window.onload = function () {
+    setTimeout(function () {
+      $(".popup").css("display", "block");
+    }, 5000);
+  }; // Funzione per chiusere il popup
+
+
   $('.chiudi').on('click', function () {
     $('.popup').fadeOut();
   }); // Funzione per disabilitare gli input
@@ -30252,7 +30258,7 @@ $(document).ready(function () {
     } else {
       $('#evento').attr("disabled", true);
     }
-  }); // funzione per copiare negli appunti
+  }); // Funzione per copiare negli appunti
 
   $('.copia').on('click', function () {
     var giorno = $(this).siblings(".giorno").val();
@@ -30286,10 +30292,17 @@ $(document).ready(function () {
       mese = 'Dicembre';
     }
 
-    var descrizione = evento + '-' + giorno + ' ' + mese + ' ' + anno;
-    window.prompt("Copy to clipboard: Ctrl+C, Enter", descrizione); // descrizione.select();
-    // descrizione.setSelectionRange(0, 99999);
-    // document.execCommand("copy");
+    var descrizione = evento + ' - ' + giorno + ' ' + mese + ' ' + anno; // Creo un input d'appoggio nascosto per inserire la stringa da copiare
+    // e una volta copiata la elimino
+
+    var tempItem = document.createElement('input');
+    tempItem.setAttribute('type', 'text');
+    tempItem.setAttribute('display', 'none');
+    tempItem.setAttribute('value', descrizione);
+    document.body.appendChild(tempItem);
+    tempItem.select();
+    document.execCommand('Copy');
+    tempItem.parentElement.removeChild(tempItem);
   });
 });
 

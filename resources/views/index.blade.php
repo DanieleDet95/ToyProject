@@ -3,8 +3,9 @@
 @section('main-content')
 
 {{-- ------------------------------------------ Popup ------------------------------------------ --}} 
+{{-- Se somno presenti eventi nel giro di 31 giorni mostrare il popup --}}
 @if (!empty($holidays_show))
-  <div class="popup">
+  <div class="popup" style="display: none">
     <a class="chiudi"><i class="fas fa-times"></i></a>
     @if (isset($holidays_show['ieri']) || (isset($holidays_show['oggi'])))
       <h2>Ciao ti vorrei segnalare questi eventi recenti:</h2>
@@ -25,7 +26,23 @@
       
         {{-- Escludere ieri e oggi dai risultati --}}
         @if (!($holiday_show === 'ieri' || $holiday_show === 'oggi'))
-          <li><strong>{{ $holiday->descrizione }}({{ $holiday->giorno }}/{{ $holiday->mese }}/{{ $holiday->anno }})</strong></li>
+          <li>
+            <strong>{{ $holiday->descrizione }}({{ $holiday->giorno }}
+            @if ($holiday->mese == 1)Gennaio
+            @elseif ($holiday->mese == 2)Febbraio 
+            @elseif ($holiday->mese == 3)Marzo 
+            @elseif ($holiday->mese == 4)Aprile 
+            @elseif ($holiday->mese == 5)Maggio 
+            @elseif ($holiday->mese == 6)Giugno 
+            @elseif ($holiday->mese == 7)Luglio 
+            @elseif ($holiday->mese == 8)Agosto
+            @elseif ($holiday->mese == 9)Settembre 
+            @elseif ($holiday->mese == 10)Ottobre 
+            @elseif ($holiday->mese == 11)Novembre 
+            @elseif ($holiday->mese == 12)Dicembre 
+            @endif
+            {{ $holiday->anno }})</strong>
+          </li>
         @endif
         
       @endforeach
@@ -142,8 +159,22 @@
       @foreach ($holidays as $holiday)
         <tr>
 
-          {{-- Info evento --}}
-          <td>{{$holiday->giorno}}-{{$holiday->mese}}-{{$holiday->anno}}</td>
+          {{-- data ed evento --}}
+          <td>{{$holiday->giorno}}
+            @if ($holiday->mese == 1)Gennaio
+            @elseif ($holiday->mese == 2)Febbraio 
+            @elseif ($holiday->mese == 3)Marzo 
+            @elseif ($holiday->mese == 4)Aprile 
+            @elseif ($holiday->mese == 5)Maggio 
+            @elseif ($holiday->mese == 6)Giugno 
+            @elseif ($holiday->mese == 7)Luglio 
+            @elseif ($holiday->mese == 8)Agosto
+            @elseif ($holiday->mese == 9)Settembre 
+            @elseif ($holiday->mese == 10)Ottobre 
+            @elseif ($holiday->mese == 11)Novembre 
+            @elseif ($holiday->mese == 12)Dicembre 
+            @endif
+            {{$holiday->anno}}</td>
           <td>{{ $holiday->descrizione }}</td>
           <td>
 
@@ -183,8 +214,22 @@
      @foreach ($holidays as $holiday)
       <tr>
 
-        {{-- Info evento --}}
-        <td>{{$holiday->giorno}}-{{$holiday->mese}}-{{$holiday->anno}}</td>
+        {{-- Data ed evento --}}
+        <td>{{$holiday->giorno}}
+            @if ($holiday->mese == 1)Gennaio
+            @elseif ($holiday->mese == 2)Febbraio 
+            @elseif ($holiday->mese == 3)Marzo 
+            @elseif ($holiday->mese == 4)Aprile 
+            @elseif ($holiday->mese == 5)Maggio 
+            @elseif ($holiday->mese == 6)Giugno 
+            @elseif ($holiday->mese == 7)Luglio 
+            @elseif ($holiday->mese == 8)Agosto
+            @elseif ($holiday->mese == 9)Settembre 
+            @elseif ($holiday->mese == 10)Ottobre 
+            @elseif ($holiday->mese == 11)Novembre 
+            @elseif ($holiday->mese == 12)Dicembre 
+            @endif
+            {{$holiday->anno}}</td>
         <td>{{ $holiday->descrizione }}</td>
         <td>
 

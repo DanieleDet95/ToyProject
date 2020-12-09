@@ -46,44 +46,87 @@ class DateTableSeeder extends Seeder
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '25',
+                'mese' => '04',
+                'anno' => '2020',
+                'descrizione' => 'Festa della liberazione',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '01',
+                'mese' => '05',
+                'anno' => '2020',
+                'descrizione' => 'Festa dei lavoratori',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '02',
+                'mese' => '06',
+                'anno' => '2020',
+                'descrizione' => 'Festa della repubblica',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '15',
+                'mese' => '08',
+                'anno' => '2020',
+                'descrizione' => 'Ferragosto',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '01',
+                'mese' => '11',
+                'anno' => '2020',
+                'descrizione' => 'Tutti i santi',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '08',
+                'mese' => '12',
+                'anno' => '2020',
+                'descrizione' => 'Immacolata',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '10',
+                'mese' => '12',
+                'anno' => '2020',
+                'descrizione' => 'Controllo del progetto',
+                'ogni_anno' => false,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '25',
+                'mese' => '12',
+                'anno' => '2020',
+                'descrizione' => 'Natale',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '26',
+                'mese' => '12',
+                'anno' => '2020',
+                'descrizione' => 'Santo Stefano',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
+            ], [
+                'giorno' => '31',
+                'mese' => '12',
+                'anno' => '2020',
+                'descrizione' => 'San Silvestro',
+                'ogni_anno' => true,
+                'created_at' => Carbon::now()->toDateTimeString(),
+                'updated_at' => Carbon::now()->toDateTimeString(),
             ]
-            // , [
-            //     'date' => '2020-04-25',
-            //     'name' => 'Festa della liberazione',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-05-01',
-            //     'name' => 'Festa dei lavoratori',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-06-02',
-            //     'name' => 'Festa della repubblica',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-08-15',
-            //     'name' => 'Ferragosto',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-11-01',
-            //     'name' => 'Tutti i santi',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-12-08',
-            //     'name' => 'Immacolata',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-12-25',
-            //     'name' => 'Natale',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-12-26',
-            //     'name' => 'Santo Stefano',
-            //     'ogni_anno' => true
-            // ], [
-            //     'date' => '2020-12-31',
-            //     'name' => 'San Silvestro',
-            //     'ogni_anno' => true
-            // ]
         ]);
     }
 }

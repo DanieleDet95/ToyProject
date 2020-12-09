@@ -134,8 +134,6 @@ class HolidayController extends Controller
         if (!$evento == NULL) {
             // Se gli passo l'opzione cerca negli anni
             if ($request->perAnni == 'si') {
-                // dd('ciao');
-                // Cicla per ogni anno presente nel database
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
                         ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
@@ -149,7 +147,6 @@ class HolidayController extends Controller
                         ->get();
                 }
             } else {
-                // dd('ciao2');
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
                         ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
@@ -169,7 +166,6 @@ class HolidayController extends Controller
         else {
             // Se gli passo l'opzione cerca negli anni
             if ($request->perAnni == 'si') {
-                // dd('ciao3');
                 // Cicla per ogni anno presente nel database
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
@@ -179,7 +175,6 @@ class HolidayController extends Controller
                     $holidaysAnni[] = $holidays;
                 }
             } else {
-                // dd('ciao4');
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
                         ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
