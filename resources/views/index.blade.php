@@ -263,4 +263,11 @@
       
   @endif
 
+  {{-- Calendario web --}}
+  @php
+    if (isset($calendar)) {
+      echo $calendar->show();
+    }
+  @endphp
+
 @endsection

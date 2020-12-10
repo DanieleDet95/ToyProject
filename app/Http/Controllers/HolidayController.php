@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Holiday;
+use App\Calendar;
 use Carbon\Carbon;
 
 use function PHPUnit\Framework\isEmpty;
@@ -18,7 +19,10 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        // Ordino gli eventi cronologicamente per visualizzarli in ordine
+        // Per visualizzare il calendario
+        $calendar = new Calendar();
+
+        // Ordino gli eventi cronologicamente per visualizzarli in ordine nel popup
         $holidays = DB::table('holidays')
             ->orderBy('anno', 'ASC')
             ->orderBy('mese', 'ASC')
@@ -57,7 +61,7 @@ class HolidayController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('index', compact('holidays', 'holidays_show'));
+        return view('index', compact('holidays', 'holidays_show', 'calendar'));
     }
 
     /**
@@ -109,6 +113,9 @@ class HolidayController extends Controller
     // Filtrare le festivitá
     public function filter(Request $request)
     {
+        // Per visualizzare il calendario
+        $calendar = new Calendar();
+
         // Risultato predefinito dei filtri
         $holidays = DB::table('holidays')
             ->get();
@@ -187,7 +194,7 @@ class HolidayController extends Controller
         }
 
         if (isset($holidaysAnni)) {
-            return view('index', compact('holidays', 'holidaysAnni'));
+            return view('index', compact('holidays', 'holidaysAnni', 'calendar'));
         }
         return view('index', compact('holidays'));
     }
@@ -195,6 +202,9 @@ class HolidayController extends Controller
     // Ordinare le festivitá
     public function order(Request $request)
     {
+        // Per visualizzare il calendario
+        $calendar = new Calendar();
+
         $ordinamento = $request->ordine;
         if ($ordinamento == 1) {
             $holidays = DB::table('holidays')
@@ -208,7 +218,7 @@ class HolidayController extends Controller
                 ->get();
         }
 
-        return view('index', compact('holidays'));
+        return view('index', compact('holidays', 'calendar'));
     }
 
     /**
@@ -230,7 +240,10 @@ class HolidayController extends Controller
      */
     public function edit(Holiday $holiday)
     {
-        return view('holidays.edit', compact('holiday'));
+        // Per visualizzare il calendario
+        $calendar = new Calendar();
+
+        return view('holidays.edit', compact('holiday', 'calendar'));
     }
 
     /**
