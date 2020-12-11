@@ -15,9 +15,7 @@ class CreateHolidaysTable extends Migration
     {
         Schema::create('holidays', function (Blueprint $table) {
             $table->id();
-            $table->integer('giorno');
-            $table->integer('mese');
-            $table->integer('anno');
+            $table->date('data');
             $table->string('descrizione');
             $table->boolean('ogni_anno');
             $table->timestamps();

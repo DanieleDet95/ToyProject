@@ -15,7 +15,7 @@ class Calendar extends Model
    */
   public function __construct()
   {
-    $this->naviHref = htmlentities($_SERVER['PHP_SELF']);
+    $this->naviHref = '/holidays';
   }
 
   /********************* PROPERTY ********************/
@@ -169,9 +169,9 @@ class Calendar extends Model
 
     return
       '<div class="header">' .
-      '<a class="prev" href="' . $this->naviHref . '?month=' . $preMonth . '&year=' . $preYear . '">Prec</a>' .
+      '<a class="prev" href="' . $this->naviHref . '?month=' . $preMonth . '&year=' . $preYear . '">< Prec</a>' .
       '<span class="title">' . date('M Y', strtotime($this->currentYear . '-' . $this->currentMonth . '-1')) . '</span>' .
-      '<a class="next" href="' . $this->naviHref . '?month=' . $nextMonth . '&year=' . $nextYear . '">Succ</a>' . '</div>';
+      '<a class="next" href="' . $this->naviHref . '?month=' . $nextMonth . '&year=' . $nextYear . '">Succ ></a>' . '</div>';
   }
   /** * create calendar week labels */ private function _createLabels()
   {

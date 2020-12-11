@@ -3,13 +3,47 @@ var $ = require('jquery');
 
 $(document).ready(function() {
 
+  $("#inserisci").on('click', function(e){
+
+    // Prendo i dati da inviare alla chiamata ajax
+    e.preventDefault();
+    var data = $("input[name=data]").val();
+    var descrizione = $("input[name=descrizione]").val();
+    var ogni_anno = $("input[name=ogni_anno]").val();
+    console.log($("input[name=ogni_anno]").val());
+    var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+
+    // Chiamata ajax per inserire un nuovo evento
+    $.ajax({
+      type:'POST',
+      url:'/holidays',
+      data:{_token:CSRF_TOKEN,
+            data:data,
+            descrizione: descrizione,
+            ogni_anno: ogni_anno},
+      success:function(data){
+        $('.lista tr:first').after('<tr><td>'
+              + data.data +'</td><td>'
+              + data.descrizione +'</td><td>'
+              + data.ogni_anno +'</td><td>'
+              + $('.rigaElimina').html() +'</td><td>'
+              + $('.rigaCopia').html() +'</td></tr>');
+      },
+      error: function() {
+          alert('Error occured');
+      }
+    });
+
+  });
+
+  // Faccio comparire il popup dopo 5 secondi dal caricamento della pagina
   window.onload = function(){
     setTimeout(function(){
       $(".popup").css("display", "block");
     }, 5000);
   };
 
-  // Funzione per chiusere il popup
+  // Funzione per chiudere il popup
   $('.chiudi').on('click', function(){
     $('.popup').fadeOut();
   });

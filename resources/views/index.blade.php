@@ -1,3 +1,9 @@
+{{-- Per usare carbon nel blade --}}
+@php
+  use Carbon\Carbon;  
+@endphp
+
+{{-- Sistemare piccolo bug al click di reset non visualizzo il calendario--}}
 @extends('layouts.layout')
 
 @section('main-content')
@@ -27,21 +33,27 @@
         {{-- Escludere ieri e oggi dai risultati --}}
         @if (!($holiday_show === 'ieri' || $holiday_show === 'oggi'))
           <li>
-            <strong>{{ $holiday->descrizione }}({{ $holiday->giorno }}
-            @if ($holiday->mese == 1)Gennaio
-            @elseif ($holiday->mese == 2)Febbraio 
-            @elseif ($holiday->mese == 3)Marzo 
-            @elseif ($holiday->mese == 4)Aprile 
-            @elseif ($holiday->mese == 5)Maggio 
-            @elseif ($holiday->mese == 6)Giugno 
-            @elseif ($holiday->mese == 7)Luglio 
-            @elseif ($holiday->mese == 8)Agosto
-            @elseif ($holiday->mese == 9)Settembre 
-            @elseif ($holiday->mese == 10)Ottobre 
-            @elseif ($holiday->mese == 11)Novembre 
-            @elseif ($holiday->mese == 12)Dicembre 
+            @php
+              $data = Carbon::parse($holiday->data);
+              $giorno = $data->day;
+              $mese = $data->month;
+              $anno = $data->year;
+            @endphp
+            <strong>{{ $holiday->descrizione }}({{ $giorno }}
+            @if ($mese == 1)Gennaio
+            @elseif ($mese == 2)Febbraio 
+            @elseif ($mese == 3)Marzo 
+            @elseif ($mese == 4)Aprile 
+            @elseif ($mese == 5)Maggio 
+            @elseif ($mese == 6)Giugno 
+            @elseif ($mese == 7)Luglio 
+            @elseif ($mese == 8)Agosto
+            @elseif ($mese == 9)Settembre 
+            @elseif ($mese == 10)Ottobre 
+            @elseif ($mese == 11)Novembre 
+            @elseif ($mese == 12)Dicembre 
             @endif
-            {{ $holiday->anno }})</strong>
+            {{ $anno }})</strong>
           </li>
         @endif
         
@@ -68,7 +80,7 @@
 
       {{-- Data --}}
       <label>Data:</label>  
-      <input name="data" type="date"><br>
+      <input name="data" type="text" class="datainput"><br>
 
       {{-- Evento --}}
       <label>Evento:</label>  
@@ -83,7 +95,7 @@
       <input id="ogni_anno_2" type="radio" name="ogni_anno" value="2" disabled>No</label><br><br>
 
       {{-- Invio dati --}}
-      <input class="bg-red" type="submit" value="Inserisci">
+      <input id="inserisci" class="bg-red" type="submit" value="Inserisci">
     </div>
 
   </fieldset>
@@ -103,8 +115,8 @@
   {{-- Per data --}}
   <h3>
     <input type="checkbox" id="filtroData" value="data">
-    Data da: <input id="startDate" name="start_date" type="date" disabled> 
-    a <input id="endDate" name="end_date" type="date" disabled><br>
+    Data da: <input type="text" id="startDate" class="datainput" name="start_date" disabled> 
+    a <input type="text" id="endDate" class="datainput" name="end_date" disabled><br>
     Cerca negli anni? 
     <input id="anni_si" type="radio" name="perAnni" value="si" checked="checked" disabled>Si</label>
     <input id="anni_no" type="radio" name="perAnni" value="no" disabled>No</label>
@@ -146,7 +158,6 @@
     <th>Data</th>
     <th>Descrizione</th>
     <th>Ogni anno?</th>
-    <th>Modifica</th>
     <th>Elimina</th>
     <th>Copia negli appunti</th>
   </tr>
@@ -160,21 +171,28 @@
         <tr>
 
           {{-- data ed evento --}}
-          <td>{{$holiday->giorno}}
-            @if ($holiday->mese == 1)Gennaio
-            @elseif ($holiday->mese == 2)Febbraio 
-            @elseif ($holiday->mese == 3)Marzo 
-            @elseif ($holiday->mese == 4)Aprile 
-            @elseif ($holiday->mese == 5)Maggio 
-            @elseif ($holiday->mese == 6)Giugno 
-            @elseif ($holiday->mese == 7)Luglio 
-            @elseif ($holiday->mese == 8)Agosto
-            @elseif ($holiday->mese == 9)Settembre 
-            @elseif ($holiday->mese == 10)Ottobre 
-            @elseif ($holiday->mese == 11)Novembre 
-            @elseif ($holiday->mese == 12)Dicembre 
+          @php
+            $data = Carbon::parse($holiday->data);
+            $giorno = $data->day;
+            $mese = $data->month;
+            $anno = $data->year;
+          @endphp
+        <td>{{$giorno}}
+            @if ($mese == 1)Gennaio
+            @elseif ($mese == 2)Febbraio 
+            @elseif ($mese == 3)Marzo 
+            @elseif ($mese == 4)Aprile 
+            @elseif ($mese == 5)Maggio 
+            @elseif ($mese == 6)Giugno 
+            @elseif ($mese == 7)Luglio 
+            @elseif ($mese == 8)Agosto
+            @elseif ($mese == 9)Settembre 
+            @elseif ($mese == 10)Ottobre 
+            @elseif ($mese == 11)Novembre 
+            @elseif ($mese == 12)Dicembre 
             @endif
-            {{$holiday->anno}}</td>
+            {{$anno}}
+          </td>
           <td>{{ $holiday->descrizione }}</td>
           <td>
 
@@ -183,8 +201,7 @@
             @else No
             @endif
           </td>
-          <td><a class="text-dec-none" href="{{route('holidays.edit', $holiday->id)}}">Modifica evento</a></td>
-          <td>
+          <td class="rigaElimina">
 
             {{-- Eliminazione --}}
             <form action="{{ route('holidays.destroy', $holiday->id ) }}" method="post">
@@ -193,14 +210,14 @@
               <input class="w-100 bg-red" type="submit" value="X"></a>
             </form>
           </td>
-          <td>
+          <td class="rigaCopia">
 
             {{-- Per ricavare il risultato per copiare negli appunti --}}
             <button class="copia w-100 bg-blue">Copia</button>
-            <input class="giorno" type="text" value="{{$holiday->giorno}}" style = "position: absolute; left: -1000px; top: -1000px">
-            <input class="mese" type="text" value="{{$holiday->mese}}" style = "position: absolute; left: -1000px; top: -1000px">
-            <input class="anno" type="text" value="{{$holiday->anno}}" style = "position: absolute; left: -1000px; top: -1000px">
-            <input class="evento" type="text" value="{{$holiday->descrizione}}" style = "position: absolute; left: -1000px; top: -1000px">
+           <input class='giorno' type='text' value='{{$giorno}}' style = 'position: absolute; left: -1000px; top: -1000px'>
+            <input class='mese' type='text' value='{{$mese}}' style = 'position: absolute; left: -1000px; top: -1000px'>
+            <input class='anno' type='text' value='{{$anno}}' style = 'position: absolute; left: -1000px; top: -1000px'>
+            <input class='evento' type='text' value='{{$holiday->descrizione}}' style = 'position: absolute; left: -1000px; top: -1000px'>
           </td>
         </tr>
       @endforeach
@@ -215,21 +232,28 @@
       <tr>
 
         {{-- Data ed evento --}}
-        <td>{{$holiday->giorno}}
-            @if ($holiday->mese == 1)Gennaio
-            @elseif ($holiday->mese == 2)Febbraio 
-            @elseif ($holiday->mese == 3)Marzo 
-            @elseif ($holiday->mese == 4)Aprile 
-            @elseif ($holiday->mese == 5)Maggio 
-            @elseif ($holiday->mese == 6)Giugno 
-            @elseif ($holiday->mese == 7)Luglio 
-            @elseif ($holiday->mese == 8)Agosto
-            @elseif ($holiday->mese == 9)Settembre 
-            @elseif ($holiday->mese == 10)Ottobre 
-            @elseif ($holiday->mese == 11)Novembre 
-            @elseif ($holiday->mese == 12)Dicembre 
+        @php
+          $data = Carbon::parse($holiday->data);
+          $giorno = $data->day;
+          $mese = $data->month;
+          $anno = $data->year;
+        @endphp
+        <td>{{$giorno}}
+            @if ($mese == 1)Gennaio
+            @elseif ($mese == 2)Febbraio 
+            @elseif ($mese == 3)Marzo 
+            @elseif ($mese == 4)Aprile 
+            @elseif ($mese == 5)Maggio 
+            @elseif ($mese == 6)Giugno 
+            @elseif ($mese == 7)Luglio 
+            @elseif ($mese == 8)Agosto
+            @elseif ($mese == 9)Settembre 
+            @elseif ($mese == 10)Ottobre 
+            @elseif ($mese == 11)Novembre 
+            @elseif ($mese == 12)Dicembre 
             @endif
-            {{$holiday->anno}}</td>
+            {{$anno}}
+          </td>
         <td>{{ $holiday->descrizione }}</td>
         <td>
 
@@ -238,23 +262,22 @@
           @else No
           @endif
         </td>
-        <td><a class="text-dec-none" href="{{route('holidays.edit', $holiday->id)}}">Modifica evento</a></td>
-        <td>
+        <td class="rigaElimina">
 
           {{-- Eliminazione --}}
-          <form action="{{ route('holidays.destroy', $holiday->id ) }}" method="post">
+          <form action='{{ route('holidays.destroy', $holiday->id ) }}' method='post'>
             @csrf
             @method('DELETE')
-            <input class="w-100 bg-red" type="submit" value="X"></a>
+            <input class='w-100 bg-red' type='submit' value='X'></a>
           </form>
         </td>
-        <td>
+        <td class="rigaCopia">
 
           {{-- Per ricavare il risultato per copiare negli appunti --}}
           <button class="copia w-100 bg-blue">Copia</button>
-          <input class="giorno" type="text" value="{{$holiday->giorno}}" style = "position: absolute; left: -1000px; top: -1000px">
-          <input class="mese" type="text" value="{{$holiday->mese}}" style = "position: absolute; left: -1000px; top: -1000px">
-          <input class="anno" type="text" value="{{$holiday->anno}}" style = "position: absolute; left: -1000px; top: -1000px">
+          <input class="giorno" type="text" value="{{$giorno}}" style = "position: absolute; left: -1000px; top: -1000px">
+          <input class="mese" type="text" value="{{$mese}}" style = "position: absolute; left: -1000px; top: -1000px">
+          <input class="anno" type="text" value="{{$anno}}" style = "position: absolute; left: -1000px; top: -1000px">
           <input class="evento" type="text" value="{{$holiday->descrizione}}" style = "position: absolute; left: -1000px; top: -1000px">
         </td>
       </tr>

@@ -24,9 +24,7 @@ class HolidayController extends Controller
 
         // Ordino gli eventi cronologicamente per visualizzarli in ordine nel popup
         $holidays = DB::table('holidays')
-            ->orderBy('anno', 'ASC')
-            ->orderBy('mese', 'ASC')
-            ->orderBy('giorno', 'ASC')
+            ->orderBy('data', 'ASC')
             ->get();
 
         // Creare variabile data giorno prima di ieri
@@ -36,8 +34,7 @@ class HolidayController extends Controller
 
         foreach ($holidays as $holiday) {
             // Mi costruisco il formato Carbon per fare le operazioni
-            $data = $holiday->giorno . "-" . $holiday->mese . "-" . $holiday->anno;
-            $data_carbon = Carbon::parse($data);
+            $data_carbon = Carbon::parse($holiday->data);
 
             // Se la data dell'evento é piu avanti della data dell'altro ieri
             if ($data_carbon->greaterThan($ieri)) {
@@ -89,15 +86,32 @@ class HolidayController extends Controller
 
         $form_data = $request->all();
         $data = Carbon::parse($form_data['data']);
+        $giorno = $data->day;
+        $mese = $data->month;
+        if ($data->month == 1) $mese = 'Gennaio';
+        elseif ($data->month == 2) $mese = 'Febbraio';
+        elseif ($data->month == 3) $mese = 'Marzo';
+        elseif ($data->month == 4) $mese = 'Aprile';
+        elseif ($data->month == 5) $mese = 'Maggio';
+        elseif ($data->month == 6) $mese = 'Giugno';
+        elseif ($data->month == 7) $mese = 'Luglio';
+        elseif ($data->month == 8) $mese = 'Agosto';
+        elseif ($data->month == 9) $mese = 'Settembre';
+        elseif ($data->month == 10) $mese = 'Ottobre';
+        elseif ($data->month == 11) $mese = 'Novembre';
+        elseif ($data->month == 12) $mese = 'Dicembre';
+        $anno = $data->year;
         $new_holiday = new Holiday();
-        $new_holiday->giorno = $data->day;
-        $new_holiday->mese = $data->month;
-        $new_holiday->anno = $data->year;
+        $new_holiday->data = $data;
         $new_holiday->descrizione = $form_data['descrizione'];
 
         // Se non é settato ogni anno dare valore 2(no) 
         if (isset($form_data['ogni_anno'])) {
-            $new_holiday->ogni_anno = $form_data['ogni_anno'];
+            if ($form_data['ogni_anno'] === 1) {
+                $new_holiday->ogni_anno = 1;
+            } else {
+                $new_holiday->ogni_anno = 2;
+            }
         } else {
             $new_holiday->ogni_anno = 2;
         }
@@ -107,7 +121,13 @@ class HolidayController extends Controller
 
         $new_holiday->save();
 
-        return redirect()->route('holidays.index', $new_holiday);
+        $send = array(
+            'data' => $giorno . ' ' . $mese . '' . $anno,
+            'descrizione' => $form_data['descrizione'],
+            'ogni_anno' => $new_holiday->ogni_anno == 1 ? 'Si' : 'No',
+        );
+
+        return response()->json($send);
     }
 
     // Filtrare le festivitá
@@ -123,15 +143,9 @@ class HolidayController extends Controller
         // Se vengono definite le date
         if (!$request->start_date == NULL) {
             $start = Carbon::parse($request->start_date);
-            $giornoIniziale = $start->day;
-            $meseIniziale = $start->month;
-            $annoIniziale = $start->year;
         }
         if (!$request->end_date == NULL) {
             $end = Carbon::parse($request->end_date);
-            $giornoFinale = $end->day;
-            $meseFinale = $end->month;
-            $annoFinale = $end->year;
         }
 
 
@@ -143,21 +157,20 @@ class HolidayController extends Controller
             if ($request->perAnni == 'si') {
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
-                        ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
-                        ->whereBetween('mese', [$meseIniziale, $meseFinale])
+                        ->whereBetween('data', [$start, $end])
                         ->where('descrizione', $evento)
                         ->get();
                     $holidaysAnni[] = $holidays;
                 } else {
                     $holidays = DB::table('holidays')
                         ->where('descrizione', $evento)
+                        ->where('descrizione', 'like', $evento)
                         ->get();
                 }
             } else {
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
-                        ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
-                        ->whereBetween('mese', [$meseIniziale, $meseFinale])
+                        ->whereBetween('data', [$start, $end])
                         ->whereBetween('anno', [$annoIniziale, $annoFinale])      //C'é questa condizione in piú
                         ->where('descrizione', $evento)
                         ->get();
@@ -176,16 +189,14 @@ class HolidayController extends Controller
                 // Cicla per ogni anno presente nel database
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
-                        ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
-                        ->whereBetween('mese', [$meseIniziale, $meseFinale])
+                        ->whereBetween('data', [$start, $end])
                         ->get();
                     $holidaysAnni[] = $holidays;
                 }
             } else {
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
-                        ->whereBetween('giorno', [$giornoIniziale, $giornoFinale])
-                        ->whereBetween('mese', [$meseIniziale, $meseFinale])
+                        ->whereBetween('data', [$start, $end])
                         ->whereBetween('anno', [$annoIniziale, $annoFinale])      //C'é questa condizione in piú
                         ->get();
                     $holidaysAnni[] = $holidays;
@@ -212,9 +223,7 @@ class HolidayController extends Controller
                 ->get();
         } else {
             $holidays = DB::table('holidays')
-                ->orderBy('anno', 'ASC')
-                ->orderBy('mese', 'ASC')
-                ->orderBy('giorno', 'ASC')
+                ->orderBy('data', 'ASC')
                 ->get();
         }
 
@@ -253,25 +262,9 @@ class HolidayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Holiday $holiday)
+    public function update()
     {
-        $request->validate([
-            'data' => 'required',
-            'descrizione' => 'required',
-        ]);
-
-        $form_data = $request->all();
-        $data = Carbon::parse($form_data['data']);
-        $holiday->giorno = $data->day;
-        $holiday->mese = $data->month;
-        $holiday->anno = $data->year;
-        $holiday->descrizione = $form_data['descrizione'];
-        $holiday->ogni_anno = $form_data['ogni_anno'];
-        $holiday->updated_at = Carbon::now()->toDateTimeString();
-
-        $holiday->update();
-
-        return redirect()->route('holidays.index', $holiday);
+        //
     }
 
     /**
