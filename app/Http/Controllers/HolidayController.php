@@ -19,36 +19,44 @@ class HolidayController extends Controller
      */
     public function index()
     {
-        // Per visualizzare il calendario
-        $calendar = new Calendar();
-
         // Ordino gli eventi cronologicamente per visualizzarli in ordine nel popup
         $holidays = DB::table('holidays')
             ->orderBy('data', 'ASC')
             ->get();
 
         // Creare variabile data giorno prima di ieri
-        $ieri = Carbon::yesterday()->subDay();
-
+        $oggi = Carbon::today();
+        $giorno = $oggi->day;
+        $mese = $oggi->month;
         $holidays_show = [];
 
         foreach ($holidays as $holiday) {
-            // Mi costruisco il formato Carbon per fare le operazioni
-            $data_carbon = Carbon::parse($holiday->data);
 
-            // Se la data dell'evento é piu avanti della data dell'altro ieri
-            if ($data_carbon->greaterThan($ieri)) {
-                // Se é presente un evento alla data di ieri
-                if ($ieri->diffInDays($data_carbon) == 1) {
-                    $holidays_show['ieri'] = $holiday;
-                }
-                // Se é presente un evento alla data di oggi
-                else if ($ieri->diffInDays($data_carbon) == 2) {
-                    $holidays_show['oggi'] = $holiday;
-                }
-                // Se é presente un evento nei successivi 31 giorni
-                else if ($ieri->diffInDays($data_carbon) >= 3 && $ieri->diffInDays($data_carbon) <= 31) {
-                    $holidays_show[] = $holiday;
+            // Se é un evento che si ripete negli anni
+            if ($holiday->ogni_anno == 1) {
+                // Mi costruisco il formato Carbon per fare le operazioni
+                $data_carbon = Carbon::parse($holiday->data);
+                $giornoHoliday = $data_carbon->day;
+                $meseHoliday = $data_carbon->month;
+
+                // Se il mese é lo stesso
+                if ($meseHoliday == $mese) {
+
+                    // Se la data dell'evento é piu avanti della data di ieri
+                    if ($giornoHoliday >= ($giorno - 1)) {
+                        // Se é presente un evento alla data di ieri
+                        if (($giorno - $giornoHoliday) == 1) {
+                            $holidays_show['ieri'] = $holiday;
+                        }
+                        // Se é presente un evento alla data di oggi
+                        else if (($giorno - $giornoHoliday) == 0) {
+                            $holidays_show['oggi'] = $holiday;
+                        }
+                        // Se é presente un evento nei successivi 31 giorni
+                        else if ((($giornoHoliday - $giorno) >= 3) && (($giornoHoliday - $giorno) <= 31)) {
+                            $holidays_show[] = $holiday;
+                        }
+                    }
                 }
             }
         }
@@ -58,7 +66,7 @@ class HolidayController extends Controller
             ->orderBy('created_at', 'DESC')
             ->get();
 
-        return view('index', compact('holidays', 'holidays_show', 'calendar'));
+        return view('index', compact('holidays', 'holidays_show'));
     }
 
     /**
@@ -107,7 +115,7 @@ class HolidayController extends Controller
 
         // Se non é settato ogni anno dare valore 2(no) 
         if (isset($form_data['ogni_anno'])) {
-            if ($form_data['ogni_anno'] === 1) {
+            if ($form_data['ogni_anno'] == 1) {
                 $new_holiday->ogni_anno = 1;
             } else {
                 $new_holiday->ogni_anno = 2;
@@ -131,11 +139,8 @@ class HolidayController extends Controller
     }
 
     // Filtrare le festivitá
-    public function filter(Request $request)
+    public function filterOrder(Request $request)
     {
-        // Per visualizzare il calendario
-        $calendar = new Calendar();
-
         // Risultato predefinito dei filtri
         $holidays = DB::table('holidays')
             ->get();
@@ -204,8 +209,19 @@ class HolidayController extends Controller
             }
         }
 
+        $ordinamento = $request->ordine;
+        if ($ordinamento == 'creazione') {
+            $holidays = DB::table('holidays')
+                ->orderBy('created_at', 'DESC')
+                ->get();
+        } elseif ($ordinamento == 'cronologico') {
+            $holidays = DB::table('holidays')
+                ->orderBy('data', 'ASC')
+                ->get();
+        }
+
         if (isset($holidaysAnni)) {
-            return view('index', compact('holidays', 'holidaysAnni', 'calendar'));
+            return view('index', compact('holidays', 'holidaysAnni'));
         }
         return view('index', compact('holidays'));
     }
@@ -213,21 +229,9 @@ class HolidayController extends Controller
     // Ordinare le festivitá
     public function order(Request $request)
     {
-        // Per visualizzare il calendario
-        $calendar = new Calendar();
 
-        $ordinamento = $request->ordine;
-        if ($ordinamento == 1) {
-            $holidays = DB::table('holidays')
-                ->orderBy('created_at', 'DESC')
-                ->get();
-        } else {
-            $holidays = DB::table('holidays')
-                ->orderBy('data', 'ASC')
-                ->get();
-        }
 
-        return view('index', compact('holidays', 'calendar'));
+        return view('index', compact('holidays'));
     }
 
     /**
@@ -249,10 +253,7 @@ class HolidayController extends Controller
      */
     public function edit(Holiday $holiday)
     {
-        // Per visualizzare il calendario
-        $calendar = new Calendar();
-
-        return view('holidays.edit', compact('holiday', 'calendar'));
+        return view('holidays.edit', compact('holiday'));
     }
 
     /**

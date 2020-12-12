@@ -1,3 +1,5 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
 //Generali
 button {
     padding: 5px 15px;
@@ -83,20 +85,8 @@ body {
 }
 @media screen and (max-width: 799px) {
     .popup {
-        position: relative;
-        background-color: red;
+        left: 5%;
         width: 90%;
-        margin: 10px auto;
-        padding: 10px;
-        border-radius: 20px;
-        font-size: 15px;
-        .chiudi {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            font-size: 20px;
-            cursor: pointer;
-        }
     }
 }
 
@@ -110,18 +100,6 @@ body {
 }
 
 // Filtro e ordinamento
-.flex {
-    display: flex;
-    justify-content: space-between;
-    .form-left {
-        width: 65%;
-        padding: 10px;
-    }
-    .form-rigth {
-        width: 35%;
-        padding: 10px;
-    }
-}
 
 // Lista risultati
 .lista {

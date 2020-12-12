@@ -1,7 +1,10 @@
+// Iport bootstarp e jquery
 require('./bootstrap');
+import 'bootstrap';
 var $ = require('jquery');
 
 $(document).ready(function() {
+
 
   $("#inserisci").on('click', function(e){
 
@@ -9,8 +12,8 @@ $(document).ready(function() {
     e.preventDefault();
     var data = $("input[name=data]").val();
     var descrizione = $("input[name=descrizione]").val();
-    var ogni_anno = $("input[name=ogni_anno]").val();
-    console.log($("input[name=ogni_anno]").val());
+    var ogni_anno = $('input[name="ogni_anno"]:checked').val();
+    console.log(ogni_anno);
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     // Chiamata ajax per inserire un nuovo evento
@@ -121,6 +124,7 @@ $(document).ready(function() {
     tempItem.setAttribute('value',descrizione);
     document.body.appendChild(tempItem); 
     tempItem.select();
+    tempItem.setSelectionRange(0, 99999);   // Per mobile
     document.execCommand('Copy');
 
     tempItem.parentElement.removeChild(tempItem);
