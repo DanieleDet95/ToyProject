@@ -3,8 +3,8 @@ require('./bootstrap');
 import 'bootstrap';
 var $ = require('jquery');
 
-$(document).ready(function() {
 
+$(document).ready(function() {
 
   $("#inserisci").on('click', function(e){
 
@@ -13,7 +13,6 @@ $(document).ready(function() {
     var data = $("input[name=data]").val();
     var descrizione = $("input[name=descrizione]").val();
     var ogni_anno = $('input[name="ogni_anno"]:checked').val();
-    console.log(ogni_anno);
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
     // Chiamata ajax per inserire un nuovo evento
@@ -81,6 +80,31 @@ $(document).ready(function() {
         $('#evento').attr("disabled", true);
       }
   });
+
+  // // Chaimata ajax per ordinare la tabella
+  // e.preventDefault();
+  // $(document).on('click', '.ordina', function(){ 
+    
+  //    // Prendo i dati da inviare alla chiamata ajax
+  //   e.preventDefault();
+  //   var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content'); 
+
+  //   $.ajax({  
+  //     type:'POST',
+  //     url:'/holidays/order',  
+  //     data:{_token:CSRF_TOKEN},  
+  //     success:function(data)  
+  //     {   
+  //       console.log(data);
+  //       // $('.lista tr:first').after('<tr><td>'
+  //       //     + data.data +'</td><td>'
+  //       //     + data.descrizione +'</td><td>'
+  //       //     + data.ogni_anno +'</td><td>'
+  //       //     + $('.rigaElimina').html() +'</td><td>'
+  //       //     + $('.rigaCopia').html() +'</td></tr>'); 
+  //     }  
+  //   })  
+  // }); 
 
   // Funzione per copiare negli appunti
   $('.copia').on('click', function(){

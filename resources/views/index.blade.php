@@ -98,7 +98,6 @@
     </fieldset>
   </form>
   {{-- --------------------------------- Fine Aggiunta nuovo evento ------------------------------------- --}}
-
   {{-- --------------------------------------- Lista eventi --------------------------------------------- --}}
   <h1 class="center red p-3">Lista feste</h1>
 
@@ -106,9 +105,9 @@
     <div class="col-md-6 col-sm-12">
 
       {{-- ------------------------------ Filtrare e ordinare gli eventi --------------------------------- --}}
-      <form class="form-left" action="{{ route('holidays.filterOrder') }}" method="post">
+      <form class="form-left" action="{{ route('holidays.filter') }}" method="post">
       @csrf
-      @method('POST')
+      @method('post')
 
       {{-- Per data --}}
       <h5>
@@ -136,16 +135,27 @@
     <div class="col-md-6 col-sm-12 d-flex flex-row-reverse">
 
       {{-- ------------------------------- Ordinazione gli eventi ----------------------------------------- --}}
-      <form class="form-right" action="{{ route('holidays.filterOrder') }}" method="post">
+      <form class="form-right" action="{{ route('holidays.order') }}" method="post">
       @csrf
       @method('POST')
+
+      {{-- Mantengo i filtri effettuati --}}
+      <?php if(isset($_POST['start_date'])){ ?>
+          <input type="text" name="start_date" value="{{$_POST['start_date']}}" hidden>
+          <input type="text" name="end_date" value="{{$_POST['end_date']}}" hidden>
+          <input type="text" name="perAnni" value="{{$_POST['perAnni']}}" hidden>
+      <?php } ?>
+      <?php if(isset($_POST['descrizione'])){ ?>
+          <input type="text" name="descrizione" value="{{$_POST['descrizione']}}" hidden>
+      <?php } ?>
+      
       <h5>
         <label>Ordina per:</label>
         <select class="ordinazione" name="ordine">
           <option value="creazione" checked>Creazione</option>
           <option value="cronologico">Cronologico</option>
         </select>
-        <input class="bg-red" type="submit" value="Ordina">
+        <input class="bg-red ordina" type="submit" value="Ordina">
       </h5>
       </form>
 

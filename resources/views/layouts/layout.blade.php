@@ -15,13 +15,47 @@
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     {{-- Ajax token --}}
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     {{-- Data picker --}}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
       $( function() {
-        $( ".datainput" ).datepicker();
+        $( ".datainput" ).datepicker({
+          changeMonth: true,
+          changeYear: true
+        });
+        $( ".datainput" ).datepicker( "option", "dateFormat", "yy/mm/dd" );
+        var dateFormat = "yy/mm/dd",
+        from = $( "#startDate" )
+          .datepicker({
+            defaultDate: "+1w",
+            changeMonth: true,
+            numberOfMonths: 1
+          })
+          .on( "change", function() {
+            to.datepicker( "option", "minDate", getDate( this ) );
+          }),
+        to = $( "#endDate" ).datepicker({
+          defaultDate: "+1w",
+          changeMonth: true,
+          numberOfMonths: 1
+        })
+        .on( "change", function() {
+          from.datepicker( "option", "maxDate", getDate( this ) );
+        });
+  
+      function getDate( element ) {
+        var date;
+        try {
+          date = $.datepicker.parseDate( dateFormat, element.value );
+        } catch( error ) {
+          date = null;
+        }
+  
+        return date;
+      }
       } );
     </script>
 

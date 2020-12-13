@@ -139,7 +139,7 @@ class HolidayController extends Controller
     }
 
     // Filtrare le festivitá
-    public function filterOrder(Request $request)
+    public function filter(Request $request)
     {
         // Risultato predefinito dei filtri
         $holidays = DB::table('holidays')
@@ -148,9 +148,13 @@ class HolidayController extends Controller
         // Se vengono definite le date
         if (!$request->start_date == NULL) {
             $start = Carbon::parse($request->start_date);
+            $start_giorno = $start->day;
+            $start_mese = $start->month;
         }
         if (!$request->end_date == NULL) {
             $end = Carbon::parse($request->end_date);
+            $end_giorno = $end->day;
+            $end_mese = $end->month;
         }
 
 
@@ -162,24 +166,24 @@ class HolidayController extends Controller
             if ($request->perAnni == 'si') {
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
-                        ->whereBetween('data', [$start, $end])
+                        ->whereDay('data', '>=', $start_giorno)
+                        ->whereDay('data', '<=', $end_giorno)
+                        ->whereMonth('data', '>', $start_mese)
+                        ->whereMonth('data', '<=', $end_mese)
+                        ->where('ogni_anno', 1)
                         ->where('descrizione', $evento)
                         ->get();
-                    $holidaysAnni[] = $holidays;
                 } else {
                     $holidays = DB::table('holidays')
                         ->where('descrizione', $evento)
-                        ->where('descrizione', 'like', $evento)
                         ->get();
                 }
             } else {
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
                         ->whereBetween('data', [$start, $end])
-                        ->whereBetween('anno', [$annoIniziale, $annoFinale])      //C'é questa condizione in piú
                         ->where('descrizione', $evento)
                         ->get();
-                    $holidaysAnni[] = $holidays;
                 } else {
                     $holidays = DB::table('holidays')
                         ->where('descrizione', $evento)
@@ -194,31 +198,25 @@ class HolidayController extends Controller
                 // Cicla per ogni anno presente nel database
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
-                        ->whereBetween('data', [$start, $end])
+                        ->whereDay('data', '>=', $start_giorno)
+                        ->whereDay('data', '<=', $end_giorno)
+                        ->whereMonth('data', '>', $start_mese)
+                        ->whereMonth('data', '<=', $end_mese)
+                        ->where('ogni_anno', 1)
                         ->get();
-                    $holidaysAnni[] = $holidays;
                 }
             } else {
                 if (!$request->start_date == NULL && !$request->end_date == NULL) {
                     $holidays = DB::table('holidays')
                         ->whereBetween('data', [$start, $end])
-                        ->whereBetween('anno', [$annoIniziale, $annoFinale])      //C'é questa condizione in piú
                         ->get();
-                    $holidaysAnni[] = $holidays;
                 }
             }
         }
 
-        $ordinamento = $request->ordine;
-        if ($ordinamento == 'creazione') {
-            $holidays = DB::table('holidays')
-                ->orderBy('created_at', 'DESC')
-                ->get();
-        } elseif ($ordinamento == 'cronologico') {
-            $holidays = DB::table('holidays')
-                ->orderBy('data', 'ASC')
-                ->get();
-        }
+        // dd($_POST);
+
+
 
         if (isset($holidaysAnni)) {
             return view('index', compact('holidays', 'holidaysAnni'));
@@ -229,8 +227,148 @@ class HolidayController extends Controller
     // Ordinare le festivitá
     public function order(Request $request)
     {
+        // Ottenere l'ordine da effettuare
+        $ordinamento = $request->ordine;
 
+        // Se non sono settati i filtri fare l'ordine su tutti
+        if ($ordinamento == 'creazione') {
+            $holidays = DB::table('holidays')
+                ->orderBy(
+                    'created_at',
+                    'DESC'
+                )
+                ->get();
+        } else {
+            $holidays = DB::table('holidays')
+                ->orderBy('data', 'ASC')
+                ->get();
+        }
 
+        // Se sono settati filtri avviare i filtraggi prima dell'ordinamento
+        if (isset($_POST['start_date'])) {
+            // Se vengono definite le date
+            if (!$_POST['start_date'] == NULL) {
+                $start = Carbon::parse($_POST['start_date']);
+            }
+            if (!$_POST['end_date'] == NULL) {
+                $end = Carbon::parse($_POST['end_date']);
+            }
+        }
+        $evento = '';
+        if (isset($_POST['descrizione'])) {
+            // Se viene definito l'evento
+            $evento = $_POST['descrizione'];
+        } else {
+            $evento == NULL;
+        }
+
+        // Se l'ordinamento é per creazione
+        if ($ordinamento == 'creazione') {
+            // Se viene definito l'evento
+            if (!$evento == NULL) {
+                // Se gli passo l'opzione cerca negli anni
+                // if ($request->perAnni == 'si') {
+                //     if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                //         $holidays = DB::table('holidays')
+                //             ->whereBetween('data', [$start, $end])
+                //             ->where('descrizione', $evento)
+                //             ->get();
+                //   
+                //     } else {
+                //         $holidays = DB::table('holidays')
+                //             ->where('descrizione', $evento)
+                //             ->get();
+                //     }
+                // } else {
+                if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                    $holidays = DB::table('holidays')
+                        ->whereBetween('data', [$start, $end])
+                        ->where('descrizione', $evento)
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+                } else {
+                    $holidays = DB::table('holidays')
+                        ->where('descrizione', $evento)
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+                }
+                // }
+            }
+            // Se non viene definito l'evento
+            else {
+                // Se gli passo l'opzione cerca negli anni
+                // if ($request->perAnni == 'si') {
+                //     // Cicla per ogni anno presente nel database
+                //     if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                //         $holidays = DB::table('holidays')
+                //             ->whereBetween('data', [$start, $end])
+                //             ->get();
+                //   
+                //     }
+                // } else {
+                if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                    $holidays = DB::table('holidays')
+                        ->whereBetween('data', [$start, $end])
+                        ->orderBy('created_at', 'DESC')
+                        ->get();
+                }
+                // }
+            }
+        } // Se l'ordinamento é cronologico
+        elseif ($ordinamento == 'cronologico') {
+            // Se viene definito l'evento
+            if (!$evento == NULL) {
+                // Se gli passo l'opzione cerca negli anni
+                // if ($request->perAnni == 'si') {
+                //     if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                //         $holidays = DB::table('holidays')
+                //             ->whereBetween('data', [$start, $end])
+                //             ->where('descrizione', $evento)
+                //             ->get();
+                //   
+                //     } else {
+                //         $holidays = DB::table('holidays')
+                //             ->where('descrizione', $evento)
+                //             ->get();
+                //     }
+                // } else {
+                if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                    $holidays = DB::table('holidays')
+                        ->whereBetween('data', [$start, $end])
+                        ->where('descrizione', $evento)
+                        ->orderBy('data', 'ASC')
+                        ->get();
+                } else {
+                    $holidays = DB::table('holidays')
+                        ->where('descrizione', $evento)
+                        ->orderBy('data', 'ASC')
+                        ->get();
+                }
+                // }
+            }
+            // Se non viene definito l'evento
+            else {
+                // Se gli passo l'opzione cerca negli anni
+                // if ($request->perAnni == 'si') {
+                //     // Cicla per ogni anno presente nel database
+                //     if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                //         $holidays = DB::table('holidays')
+                //             ->whereBetween('data', [$start, $end])
+                //             ->get();
+                //   
+                //     }
+                // } else {
+                if (!$request->start_date == NULL && !$request->end_date == NULL) {
+                    $holidays = DB::table('holidays')
+                        ->whereBetween('data', [$start, $end])
+                        ->orderBy('data', 'ASC')
+                        ->get();
+                }
+                // }
+            }
+        }
+
+        // return response()->json($holidays->toArray());
         return view('index', compact('holidays'));
     }
 

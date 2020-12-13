@@ -18,4 +18,5 @@ Route::get('/', function () {
 })->name('home');
 
 Route::resource('/holidays', 'HolidayController');
-Route::post('/holidays/filter', 'HolidayController@filterOrder')->name('holidays.filterOrder');
+Route::post('/holidays/filter', 'HolidayController@filter')->name('holidays.filter');
+Route::post('/holidays/order', 'HolidayController@order')->name('holidays.order');
