@@ -13,7 +13,7 @@
   @if (!empty($holidays_show))
     <div class="popup" style="display: none">
       <h2>Ciao ti vorrei segnalare questi eventi:</h2>
-      <a class="chiudi"><i class="fas fa-times"></i></a>
+      <a class="chiudi"><i class="fas fa-times"style="color: black;"></i></a>
       @if (isset($holidays_show['ieri']) || (isset($holidays_show['oggi'])))
         <h3>
           @if (isset($holidays_show['ieri']))
@@ -115,8 +115,8 @@
         Data da: <input type="text" id="startDate" class="datainput" name="start_date" disabled> 
         a <input type="text" id="endDate" class="datainput" name="end_date" disabled><br>
         Cerca negli anni? 
-        <input id="anni_si" type="radio" name="perAnni" value="si" checked="checked" disabled>Si</label>
-        <input id="anni_no" type="radio" name="perAnni" value="no" disabled>No</label>
+        <input id="anni_si" type="radio" name="perAnni" value="si" disabled>Si</label>
+        <input id="anni_no" type="radio" name="perAnni" value="no" checked="checked" disabled>No</label>
       </h5>
 
       {{-- Per evento --}}
@@ -229,10 +229,10 @@
   </table>
 
   {{-- Calendario web --}}
-  {{-- @php
+  @php
     if (isset($calendar)) {
       echo $calendar->show();
     }
-  @endphp --}}
+  @endphp
 
 @endsection

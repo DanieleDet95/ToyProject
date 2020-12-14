@@ -3,8 +3,6 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\DB;
-use App\Holiday;
 use Carbon\Carbon;
 
 class Calendar extends Model

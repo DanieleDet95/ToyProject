@@ -11026,7 +11026,7 @@ body {
 div#calendar {
   margin: 50px auto;
   padding: 0px;
-  width: 602px;
+  width: 100%;
   font-family: Helvetica, "Times New Roman", Times, serif;
 }
 
@@ -11043,9 +11043,8 @@ div#calendar div.header {
   line-height: 40px;
   vertical-align: middle;
   position: absolute;
-  left: 11px;
   top: 0px;
-  width: 582px;
+  width: 100%;
   height: 40px;
   text-align: center;
 }
@@ -11059,6 +11058,12 @@ div#calendar div.header a.next {
   cursor: pointer;
   text-decoration: none;
   color: #fff;
+  padding: 0 20px;
+}
+
+div#calendar div.header a.prev:hover,
+div#calendar div.header a.next:hover {
+  color: red;
 }
 
 div#calendar div.header span.title {
@@ -11082,11 +11087,12 @@ div#calendar div.box-content {
 }
 
 div#calendar ul.label {
+  width: 100%;
   float: left;
   margin: 0px;
   padding: 0px;
   margin-top: 5px;
-  margin-left: 5px;
+  margin-left: 3%;
 }
 
 div#calendar ul.label li {
@@ -11095,7 +11101,7 @@ div#calendar ul.label li {
   margin-right: 5px;
   float: left;
   list-style-type: none;
-  width: 80px;
+  width: 12.8%;
   height: 40px;
   line-height: 40px;
   vertical-align: middle;
@@ -11106,10 +11112,11 @@ div#calendar ul.label li {
 }
 
 div#calendar ul.dates {
+  width: 100%;
   float: left;
   margin: 0px;
   padding: 0px;
-  margin-left: 5px;
+  margin-left: 3%;
   margin-bottom: 5px;
 }
 
@@ -11124,7 +11131,7 @@ div#calendar ul.dates li {
   vertical-align: middle;
   float: left;
   list-style-type: none;
-  width: 80px;
+  width: 12.8%;
   height: 80px;
   font-size: 25px;
   background-color: #ddd;
