@@ -1,14 +1,14 @@
 @extends('layouts.layout')
 
 @section('main-content')
-<body class="bg-black">
+<body>
 
-    <h1 class="center red titolo">CALENDARIO DIGITALE</h1>
-    <table class="entra" border="1">
-        <tr>
-            <td><a href="{{route('holidays.index')}}">Entra</a> </td>
-        </tr>
-    </table>
+    <h1 class="titolo_home">CALENDARIO DIGITALE</h1>
+    <div class="container">
+        <div class="entra">
+            <a href="{{route('holidays.index')}}">ENTRA</a>
+        </div>
+    </div>
 
 </body>
 @endsection

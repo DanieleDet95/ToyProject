@@ -63,12 +63,16 @@ $(document).ready(function() {
   $('#filtroData').on('change', function(){
       if(this.checked){
         $('#startDate').attr("disabled", false);
+        $('#startDate').css("background-color", "white");
         $('#endDate').attr("disabled", false);
+        $('#endDate').css("background-color", "white");
         $('#anni_si').attr("disabled", false);
         $('#anni_no').attr("disabled", false);
       } else {
         $('#startDate').attr("disabled", true);
+        $('#startDate').css("background-color", "lightgray");
         $('#endDate').attr("disabled", true);
+        $('#endDate').css("background-color", "lightgray");
         $('#anni_si').attr("disabled", true);
         $('#anni_no').attr("disabled", true);
       }
@@ -76,8 +80,10 @@ $(document).ready(function() {
   $('#filtroEvento').on('change', function(){
       if(this.checked){
         $('#evento').attr("disabled", false);
+        $('#evento').css("background-color", "white");
       } else {
         $('#evento').attr("disabled", true);
+        $('#evento').css("background-color", "lightgray");
       }
   });
 
@@ -129,7 +135,7 @@ $(document).ready(function() {
       mese = 'Luglio';
     }else if(mese == 8) {
       mese = 'Agosto';
-    }else if(mese == 9) {
+    }else if(mese == 9) { 
       mese = 'Settembre';
     }else if(mese == 10) {
       mese = 'ottobre';

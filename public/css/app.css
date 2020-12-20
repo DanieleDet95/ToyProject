@@ -10903,75 +10903,43 @@ a.text-dark:focus {
   }
 }
 
-button {
-  padding: 5px 15px;
-}
-
-button:hover {
-  font-weight: bold;
-}
-
-input[type=submit] {
-  padding: 5px 15px;
-}
-
-input[type=submit]:hover {
-  font-weight: bold;
-}
-
-.center {
+.titolo_home {
+  color: #536bd3;
   text-align: center;
-}
-
-.red {
-  color: red;
-}
-
-.bg-black {
-  background-color: black;
-}
-
-.bg-red {
-  background-color: red;
-}
-
-.bg-blue {
-  background-color: cornflowerblue;
-}
-
-.w-100 {
-  width: 100%;
-}
-
-.text-dec-none {
-  text-decoration: none;
-}
-
-.titolo {
-  font-size: 75px;
-}
-
-.entra {
-  margin: 0 auto;
-}
-
-.entra td {
-  padding: 25px;
-  background: red;
-}
-
-.entra td a {
-  text-decoration: none;
-  color: black;
   font-weight: bold;
+  letter-spacing: 3px;
+  margin-top: 7%;
+}
+
+.container {
+  width: 100%;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.container .entra {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: white;
+}
+
+.container .entra:hover {
+  background: #536bd3;
+}
+
+.container .entra:hover a {
+  color: white;
+}
+
+.container .entra a:hover {
+  text-decoration: none;
 }
 
 body {
   width: auto;
-  background-color: white;
-  color: #636b6f;
-  font-family: "Nunito", sans-serif;
-  font-weight: 200;
+  font-family: "Montserrat", sans-serif;
+  background: lightgray;
   margin: 0;
   margin-bottom: 50px;
 }
@@ -10979,22 +10947,34 @@ body {
 .popup {
   position: fixed;
   top: 10%;
-  left: 25%;
+  left: 30%;
   margin: auto;
-  background-color: red;
-  width: 50%;
+  background-color: white;
+  width: 40%;
   padding: 20px;
   border-radius: 20px;
   z-index: 100;
-  box-shadow: 5px 5px 15px 5px #000000;
+}
+
+.popup h2 {
+  font-size: 25px;
+  text-align: center;
 }
 
 .popup .chiudi {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 10px;
+  right: 10px;
   font-size: 20px;
   cursor: pointer;
+}
+
+.popup .chiudi:hover {
+  color: #536bd3 !important;
+}
+
+.popup ul {
+  padding: 0 13px;
 }
 
 @media screen and (max-width: 799px) {
@@ -11004,21 +10984,322 @@ body {
   }
 }
 
-.tabella_create {
-  background-color: lightgray;
+.container-fluid.black,
+.black.container-sm,
+.black.container-md,
+.black.container-lg,
+.black.container-xl {
+  position: relative;
+  background: #2c2b2b;
+  padding: 100px 75px 130px 75px;
 }
 
-.tabella_create legend {
+.container-fluid.black .titolo_nuovo,
+.black.container-sm .titolo_nuovo,
+.black.container-md .titolo_nuovo,
+.black.container-lg .titolo_nuovo,
+.black.container-xl .titolo_nuovo {
+  color: #536bd3;
+  width: 60%;
+  font-size: 50px;
+  font-weight: 600;
+}
+
+.container-fluid.black .right .float,
+.black.container-sm .right .float,
+.black.container-md .right .float,
+.black.container-lg .right .float,
+.black.container-xl .right .float {
+  float: right;
+}
+
+.container-fluid.black .right .float form,
+.black.container-sm .right .float form,
+.black.container-md .right .float form,
+.black.container-lg .right .float form,
+.black.container-xl .right .float form {
+  text-align: left;
+  color: white;
+}
+
+.container-fluid.black .right .float form label,
+.black.container-sm .right .float form label,
+.black.container-md .right .float form label,
+.black.container-lg .right .float form label,
+.black.container-xl .right .float form label {
+  width: 65px;
+}
+
+.container-fluid.black .right .float form label.anno,
+.black.container-sm .right .float form label.anno,
+.black.container-md .right .float form label.anno,
+.black.container-lg .right .float form label.anno,
+.black.container-xl .right .float form label.anno {
+  width: 125px;
+}
+
+.container-fluid.black .right .float form input,
+.black.container-sm .right .float form input,
+.black.container-md .right .float form input,
+.black.container-lg .right .float form input,
+.black.container-xl .right .float form input {
+  background: #2c2b2b;
+  border: 1px solid gray;
+  border-radius: 5px;
+  color: white;
+}
+
+.container-fluid.black .right .float form .btn_inserisci,
+.black.container-sm .right .float form .btn_inserisci,
+.black.container-md .right .float form .btn_inserisci,
+.black.container-lg .right .float form .btn_inserisci,
+.black.container-xl .right .float form .btn_inserisci {
+  position: absolute;
+  left: -10%;
+  bottom: -50%;
+  display: inline-block;
+  padding: 10px 20px;
   border-radius: 25px;
-  padding: 10px;
+  background: white;
+  color: black;
+}
+
+.container-fluid.black .right .float form .btn_inserisci:hover,
+.black.container-sm .right .float form .btn_inserisci:hover,
+.black.container-md .right .float form .btn_inserisci:hover,
+.black.container-lg .right .float form .btn_inserisci:hover,
+.black.container-xl .right .float form .btn_inserisci:hover {
+  background: #536bd3;
+  color: white;
+}
+
+.container-fluid.black .right .float form .anno,
+.black.container-sm .right .float form .anno,
+.black.container-md .right .float form .anno,
+.black.container-lg .right .float form .anno,
+.black.container-xl .right .float form .anno {
+  color: #536bd3;
+  margin: 10px 0;
+}
+
+.container-fluid.black hr,
+.black.container-sm hr,
+.black.container-md hr,
+.black.container-lg hr,
+.black.container-xl hr {
+  background: #536bd3;
+  width: 100%;
+}
+
+@media screen and (max-width: 767px) {
+  .btn_inserisci {
+    left: 0% !important;
+  }
+}
+
+.container-fluid.white .row.filtro,
+.white.container-sm .row.filtro,
+.white.container-md .row.filtro,
+.white.container-lg .row.filtro,
+.white.container-xl .row.filtro {
+  position: relative;
+  background: lightgray;
+  padding: 100px 75px 130px 75px;
+}
+
+.container-fluid.white .row.filtro .titolo_lista,
+.white.container-sm .row.filtro .titolo_lista,
+.white.container-md .row.filtro .titolo_lista,
+.white.container-lg .row.filtro .titolo_lista,
+.white.container-xl .row.filtro .titolo_lista {
+  color: #536bd3;
+  width: 70%;
+  font-size: 50px;
+  font-weight: 600;
+}
+
+.container-fluid.white .row.filtro .right,
+.white.container-sm .row.filtro .right,
+.white.container-md .row.filtro .right,
+.white.container-lg .row.filtro .right,
+.white.container-xl .row.filtro .right {
+  float: right;
+}
+
+.container-fluid.white .row.filtro .right form,
+.white.container-sm .row.filtro .right form,
+.white.container-md .row.filtro .right form,
+.white.container-lg .row.filtro .right form,
+.white.container-xl .row.filtro .right form {
+  text-align: left;
+  color: black;
+}
+
+.container-fluid.white .row.filtro .right form label,
+.white.container-sm .row.filtro .right form label,
+.white.container-md .row.filtro .right form label,
+.white.container-lg .row.filtro .right form label,
+.white.container-xl .row.filtro .right form label {
+  width: 65px;
+}
+
+.container-fluid.white .row.filtro .right form label.anno,
+.white.container-sm .row.filtro .right form label.anno,
+.white.container-md .row.filtro .right form label.anno,
+.white.container-lg .row.filtro .right form label.anno,
+.white.container-xl .row.filtro .right form label.anno {
+  width: 175px;
+}
+
+.container-fluid.white .row.filtro .right form input,
+.white.container-sm .row.filtro .right form input,
+.white.container-md .row.filtro .right form input,
+.white.container-lg .row.filtro .right form input,
+.white.container-xl .row.filtro .right form input {
+  background: lightgray;
+  border: 1px solid gray;
+  border-radius: 5px;
+}
+
+.container-fluid.white .row.filtro .right form .btn_filtra,
+.white.container-sm .row.filtro .right form .btn_filtra,
+.white.container-md .row.filtro .right form .btn_filtra,
+.white.container-lg .row.filtro .right form .btn_filtra,
+.white.container-xl .row.filtro .right form .btn_filtra {
+  position: absolute;
+  left: -45%;
+  bottom: -65%;
+  display: inline-block;
+  padding: 10px 35px;
+  border: 1px solid #536bd3;
+  border-radius: 25px;
+  background: #536bd3;
+  color: white;
+}
+
+.container-fluid.white .row.filtro .right form .btn_filtra:hover,
+.white.container-sm .row.filtro .right form .btn_filtra:hover,
+.white.container-md .row.filtro .right form .btn_filtra:hover,
+.white.container-lg .row.filtro .right form .btn_filtra:hover,
+.white.container-xl .row.filtro .right form .btn_filtra:hover {
+  background: #fff;
+  color: black;
+}
+
+.container-fluid.white .row.filtro .right form button.reset,
+.white.container-sm .row.filtro .right form button.reset,
+.white.container-md .row.filtro .right form button.reset,
+.white.container-lg .row.filtro .right form button.reset,
+.white.container-xl .row.filtro .right form button.reset {
+  position: absolute;
+  left: 5%;
+  bottom: -65%;
+  display: inline-block;
+  padding: 10px 35px;
+  border: 1px solid #536bd3;
+  border-radius: 25px;
+  background: #536bd3;
+  color: white;
+}
+
+.container-fluid.white .row.filtro .right form button.reset:hover,
+.white.container-sm .row.filtro .right form button.reset:hover,
+.white.container-md .row.filtro .right form button.reset:hover,
+.white.container-lg .row.filtro .right form button.reset:hover,
+.white.container-xl .row.filtro .right form button.reset:hover {
+  background: #fff;
+  color: black;
+}
+
+.container-fluid.white .row.filtro .right form .anno,
+.white.container-sm .row.filtro .right form .anno,
+.white.container-md .row.filtro .right form .anno,
+.white.container-lg .row.filtro .right form .anno,
+.white.container-xl .row.filtro .right form .anno {
+  color: #536bd3;
+  margin: 10px 0;
+}
+
+.container-fluid.white .row.filtro hr,
+.white.container-sm .row.filtro hr,
+.white.container-md .row.filtro hr,
+.white.container-lg .row.filtro hr,
+.white.container-xl .row.filtro hr {
+  background: #536bd3;
+  width: 100%;
+}
+
+.container-fluid.white .row.ordina,
+.white.container-sm .row.ordina,
+.white.container-md .row.ordina,
+.white.container-lg .row.ordina,
+.white.container-xl .row.ordina {
+  padding: 0px 75px;
+  margin-bottom: 30px;
+}
+
+.container-fluid.white .row.ordina select,
+.white.container-sm .row.ordina select,
+.white.container-md .row.ordina select,
+.white.container-lg .row.ordina select,
+.white.container-xl .row.ordina select {
+  color: #536bd3;
+  background: lightgray;
+  border-radius: 5px;
+  padding-right: 10px;
+}
+
+.container-fluid.white .row.ordina .btn_ordina,
+.white.container-sm .row.ordina .btn_ordina,
+.white.container-md .row.ordina .btn_ordina,
+.white.container-lg .row.ordina .btn_ordina,
+.white.container-xl .row.ordina .btn_ordina {
+  border: 1px solid #536bd3;
+  border-radius: 25px;
+  background: #536bd3;
+  color: white;
+  padding: 6px 15px;
+}
+
+@media screen and (max-width: 767px) {
+  .data_fine {
+    margin-left: 86px;
+    margin-bottom: 10px;
+  }
+
+  .btn_filtra {
+    left: 0% !important;
+  }
+
+  button.reset {
+    left: 25% !important;
+  }
 }
 
 .lista {
-  margin: 0 auto;
+  width: 89%;
+  margin: 0 75px;
+  text-align: center;
 }
 
-.lista td {
-  max-width: 200px;
+.lista .rigaCopia:hover {
+  background: cyan;
+}
+
+.lista .rigaCopia button.copia {
+  border: none;
+  background: transparent;
+  width: 100%;
+}
+
+.lista .rigaElimina:hover {
+  background: red;
+}
+
+.lista .rigaElimina input.elimina {
+  border: none;
+  background: transparent;
+  width: 100%;
 }
 
 /*******************************Calendar Top Navigation*********************************/

@@ -27,7 +27,7 @@ class HolidayController extends Controller
             ->orderBy('data', 'ASC')
             ->get();
 
-        // Creare variabile data giorno prima di ieri
+        // Creare variabile del giorno da confrontare
         $oggi = Carbon::today();
         $giorno = $oggi->day;
         $mese = $oggi->month;
@@ -169,13 +169,8 @@ class HolidayController extends Controller
             if (!$request->start_date == NULL && !$request->end_date == NULL) {
                 $query
                     ->whereBetween(DB::raw('DAY(data)'), [$start_giorno, $end_giorno])
-                    ->whereBetween(DB::raw('MONTH(data)'), [$start_mese, $end_mese])
-                    ->where('ogni_anno', 1);
+                    ->whereBetween(DB::raw('MONTH(data)'), [$start_mese, $end_mese]);
             } // Se non definisco le date
-            else {
-                $query
-                    ->where('ogni_anno', 1);
-            }
         } // Se non ricerco per anni e definisco le date
         else {
             if (!$request->start_date == NULL && !$request->end_date == NULL) {
