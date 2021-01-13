@@ -64,15 +64,16 @@
 
 
   {{-- ----------------------------------- Aggiunta nuovo evento ------------------------------------- --}}
-  <div class="container-fluid black">
-    <div class="row">
-      <div class="col-md-6 col-sm-12">
-        <h1 class="titolo_nuovo">AGGIUNGI UN NUOVO EVENTO</h1>
+  <div class="container black">
+    <div class="row bg-dark text-white p-3 justify-content-between">
+      <div class="col-sm-12 col-md-7">
+        <h1 class="titolo_nuovo text-md-left text-center pt-4">AGGIUNGI UN NUOVO EVENTO</h1>
       </div>
     
+      <div class="col-md-1"></div>
 
-      <div class="col-md-6 col-sm-12 right">
-        <div class="float">
+      <div class="col-sm-12 col-md-4">
+        <div class="float text-md-left text-center">
           <form action="{{ route('holidays.store') }}" method="post">
             @csrf
             @method('POST')
@@ -84,12 +85,15 @@
 
                 <div>
 
+                  {{-- Id --}}
+                  <input name="id" type="text" class="id" hidden>
+
                   {{-- Data --}}
-                  <label>Data:</label>  
+                  <label>Data:</label><br>
                   <input name="data" type="text" class="datainput"><br>
 
                   {{-- Evento --}}
-                  <label>Evento:</label>  
+                  <label>Evento:</label><br>
                   <input name="descrizione" type="text"><br>
 
                   {{-- Si ripete ogni anno(facoltativo) --}}
@@ -101,7 +105,7 @@
                   </div>
 
                   {{-- Invio dati --}}
-                  <input id="inserisci" class="btn_inserisci" type="submit" value="INSERISCI">
+                  <input id="inserisci" class="btn_inserisci btn btn-success" type="submit" value="SALVA">
                 </div>
 
               </fieldset>
@@ -114,44 +118,52 @@
   </div>
   
   {{-- --------------------------------- Fine Aggiunta nuovo evento ------------------------------------- --}}
-  <div class="container-fluid white">
+  <div class="container white">
     {{-- --------------------------------------- Lista eventi --------------------------------------------- --}}
-      <div class="row filtro">
-        <div class="col-md-6 col-sm-12">
-          <h1 class="titolo_lista">LISTA DELLE FESTE</h1>
+      <div class="row filtro p-3">
+        <div class=" col-sm-12 col-md-5">
+          <h1 class="titolo_lista text-md-left text-center pt-4">LISTA DELLE FESTE</h1>
         </div>
 
-        <div class="col-md-6 col-sm-12 right">
+        <div class="col-md-3"></div>
 
-          {{-- ------------------------------ Filtrare e ordinare gli eventi --------------------------------- --}}
-          <form action="{{ route('holidays.filter') }}" method="post">
-          @csrf
-          @method('post')
+        <div class="col-sm-12 col-md-4  right">
 
-          {{-- Per data --}}
-          <input type="checkbox" id="filtroData" value="data">
-          <label>Data</label>
-          <input type="text" id="startDate" class="datainput" name="start_date" placeholder="Inizio" disabled>
-          <input type="text" id="endDate" class="datainput data_fine" name="end_date" placeholder="Fine" disabled><br>
-          {{-- Per evento --}}
-          <input type="checkbox" id="filtroEvento" value="evento">
-          <label>Evento</label>
-          <input id="evento" name="descrizione" type="text" disabled>
-          <div class="anno">
-            <label class="anno">CERCA NEGLI ANNI? </label> 
-            <input id="anni_si" type="radio" name="perAnni" value="si" disabled>Si</label>
-            <input id="anni_no" type="radio" name="perAnni" value="no" checked="checked" disabled>No</label>
+          <div class="form_lista text-md-left text-center">
+
+            <legend>FILTRA EVENTO</legend>
+
+            {{-- ------------------------------ Filtrare e ordinare gli eventi --------------------------------- --}}
+            <form action="{{ route('holidays.filter') }}" method="post">
+              @csrf
+              @method('post')
+
+              {{-- Per data --}}
+              <input type="checkbox" id="filtroData" value="data">
+              <label>Data</label><br>
+              <input type="text" id="startDate" class="datainput" name="start_date" placeholder="Inizio" disabled><br>
+              <input type="text" id="endDate" class="datainput data_fine" name="end_date" placeholder="Fine" disabled><br>
+              {{-- Per evento --}}
+              <input type="checkbox" id="filtroEvento" value="evento">
+              <label>Evento</label><br>
+              <input id="evento" name="descrizione" type="text" disabled>
+              <div class="anno">
+                <label class="anno">CERCA NEGLI ANNI? </label> <br>
+                <input id="anni_si" type="radio" name="perAnni" value="si" disabled>Si</label>
+                <input id="anni_no" type="radio" name="perAnni" value="no" checked="checked" disabled>No</label>
+              </div>
+              {{-- Invio e reset dati --}}
+              <input class="btn_filtra btn btn-success" type="submit" value="FILTRA">
+              <button class="reset btn btn-danger">RESET</button>
+            </form>
+
           </div>
-          {{-- Invio e reset dati --}}
-          <input class="btn_filtra" type="submit" value="FILTRA">
-          <button class="reset">RESET</button>
-          </form>
         
         </div>
         <hr>
       </div>
 
-      <div class="row ordina">
+      <div class="row ordina pt-3 text-center">
         <div class="col-md-12 col-sm-12">
 
           {{-- ------------------------------- Ordinazione gli eventi ----------------------------------------- --}}
@@ -172,11 +184,11 @@
           
           <h5>
             <label>Ordina per </label>
-            <select class="ordinazione" name="ordine">
+            <select class="ordinazione form-control-sm" name="ordine">
               <option value="creazione" checked>Creazione</option>
               <option value="cronologico">Cronologico</option>
             </select>
-            <input class="btn_ordina" type="submit" value="ORDINA">
+            <input class="btn_ordina btn btn-success" type="submit" value="ORDINA">
           </h5>
           </form>
           </div>
@@ -185,70 +197,99 @@
       </div>    
 
     {{-- --------------------------------- Tabella Elenco degli eventi ------------------------------------- --}}
-    <table class="lista" border="1">
-      <tr>
-        <th>DATA</th>
-        <th>DESCRIZIONE</th>
-        <th>OGNI ANNO?</th>
-        <th>COPIA NEGLI APPUNTI</th>
-        <th>ELIMINA</th>
-      </tr>
+    <div class="row tabella pt-3">
+      <div class="col-md-12 col-sm-12">
+        <table class="lista text-center table table-striped table-responsive-sm" border="1">
+          <tr>
+            <th class="p-2">DATA</th>
+            <th class="p-2">DESCRIZIONE</th>
+            <th class="p-2">OGNI ANNO?</th>
+            <th class="p-2">COPIA NEGLI APPUNTI</th>
+            <th class="p-2">MODIFICA</th>
+            <th class="p-2">ELIMINA</th>
+          </tr>
 
-      @foreach ($holidays as $holiday)
-        <tr>
-
+          @foreach ($holidays as $holiday)
           {{-- Data ed evento --}}
-          @php
-            $data = Carbon::parse($holiday->data);
-            $giorno = $data->day;
-            $mese = $data->month;
-            $anno = $data->year;
-          @endphp
-          <td>{{$giorno}}
-            @if ($mese == 1)Gennaio
-            @elseif ($mese == 2)Febbraio 
-            @elseif ($mese == 3)Marzo 
-            @elseif ($mese == 4)Aprile 
-            @elseif ($mese == 5)Maggio 
-            @elseif ($mese == 6)Giugno 
-            @elseif ($mese == 7)Luglio 
-            @elseif ($mese == 8)Agosto
-            @elseif ($mese == 9)Settembre 
-            @elseif ($mese == 10)Ottobre 
-            @elseif ($mese == 11)Novembre 
-            @elseif ($mese == 12)Dicembre 
-            @endif
-            {{$anno}}
-          </td>
-          <td>{{ $holiday->descrizione }}</td>
-          <td>
+              @php
+                $data = Carbon::parse($holiday->data);
+                $giorno = $data->day;
+                $mese = $data->month;
+                if ($mese == 1)$meseNome="Gennaio";
+                elseif ($mese == 2)$meseNome="Febbraio";
+                elseif ($mese == 3)$meseNome="Marzo"; 
+                elseif ($mese == 4)$meseNome="Aprile"; 
+                elseif ($mese == 5)$meseNome="Maggio"; 
+                elseif ($mese == 6)$meseNome="Giugno"; 
+                elseif ($mese == 7)$meseNome="Luglio"; 
+                elseif ($mese == 8)$meseNome="Agosto";
+                elseif ($mese == 9)$meseNome="Settembre"; 
+                elseif ($mese == 10)$meseNome="Ottobre"; 
+                elseif ($mese == 11)$meseNome="Novembre"; 
+                elseif ($mese == 12)$meseNome="Dicembre"; 
+                $anno = $data->year;
+              @endphp
+              
+            <tr data-copia="{{$holiday->descrizione}}-{{$giorno}} {{$meseNome}} {{$anno}}">
 
-            {{-- Se si verifica ogni anno --}}
-            @if ($holiday->ogni_anno == 1) Si
-            @else No
-            @endif
-          </td>
-          <td class="rigaCopia">
+              <td class="id" data-id="{{$holiday->id}}" hidden></td>
 
-            {{-- Per ricavare il risultato per copiare negli appunti --}}
-            <button class="copia">Copia</button>
-            <input class="giorno" type="text" value="{{$giorno}}" style = "position: absolute; left: -1000px; top: -1000px">
-            <input class="mese" type="text" value="{{$mese}}" style = "position: absolute; left: -1000px; top: -1000px">
-            <input class="anno" type="text" value="{{$anno}}" style = "position: absolute; left: -1000px; top: -1000px">
-            <input class="evento" type="text" value="{{$holiday->descrizione}}" style = "position: absolute; left: -1000px; top: -1000px">
-          </td>
-          <td class="rigaElimina">
+              <td class="data" data-giorno="{{$anno}}/{{$mese}}/{{$giorno}}">
+                {{$giorno}}
+                @if ($mese == 1)Gennaio
+                @elseif ($mese == 2)Febbraio 
+                @elseif ($mese == 3)Marzo 
+                @elseif ($mese == 4)Aprile 
+                @elseif ($mese == 5)Maggio 
+                @elseif ($mese == 6)Giugno 
+                @elseif ($mese == 7)Luglio 
+                @elseif ($mese == 8)Agosto
+                @elseif ($mese == 9)Settembre 
+                @elseif ($mese == 10)Ottobre 
+                @elseif ($mese == 11)Novembre 
+                @elseif ($mese == 12)Dicembre 
+                @endif
+                {{$anno}}
+              </td>
+              <td class="descrizione "data-descrizione="{{$holiday->descrizione}}">{{ $holiday->descrizione }}</td>
+              <td class="anno" data-anno="{{$holiday->ogni_anno}}">
 
-            {{-- Eliminazione --}}
-            <form action='{{ route('holidays.destroy', $holiday->id ) }}' method='post'>
-              @csrf
-              @method('DELETE')
-              <input class='elimina' type='submit' value='X'>
-            </form>
-          </td>
-        </tr>
-      @endforeach
-    </table>
+                {{-- Se si verifica ogni anno --}}
+                @if ($holiday->ogni_anno == 1) Si
+                @else No
+                @endif
+              </td>
+
+              {{-- Copia --}}
+              <td class="rigaCopia">
+
+                {{-- Per ricavare il risultato per copiare negli appunti --}}
+                <button class="copia btn btn-info w-100">Copia</button>
+              </td>
+
+              {{-- Modifica --}}
+              <td class="rigaModifica">
+
+                {{-- Per ricavare il risultato per copiare negli appunti --}}
+                <button class="modifica btn btn-warning w-100">Modifica</button>
+              </td>
+
+              {{-- Elimina --}}
+              <td class="rigaElimina">
+
+                {{-- Eliminazione --}}
+                <form class="elimina" action='{{ route('holidays.destroy', $holiday->id ) }}' method='post'>
+                  @csrf
+                  @method('DELETE')
+                  <input class='elimina btn btn-danger w-100' type='submit' value='X'>
+                </form>
+              </td>
+
+            </tr>
+          @endforeach
+        </table>
+      </div>
+    </div>
   </main>
   
 

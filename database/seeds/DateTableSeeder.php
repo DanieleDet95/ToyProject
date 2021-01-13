@@ -15,7 +15,7 @@ class DateTableSeeder extends Seeder
     {
         DB::table('holidays')->insert([
             [
-                'data' => '2020-01-01',
+                'data' => '2021-01-01',
                 'descrizione' => 'Capodanno',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
@@ -27,31 +27,31 @@ class DateTableSeeder extends Seeder
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-04-01',
+                'data' => '2021-04-01',
                 'descrizione' => 'Pasqua',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-04-25',
+                'data' => '2021-04-25',
                 'descrizione' => 'Festa della liberazione',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-05-01',
+                'data' => '2021-05-01',
                 'descrizione' => 'Festa dei lavoratori',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-06-02',
+                'data' => '2021-06-02',
                 'descrizione' => 'Festa della repubblica',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-08-15',
+                'data' => '2021-08-15',
                 'descrizione' => 'Ferragosto',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
@@ -62,20 +62,14 @@ class DateTableSeeder extends Seeder
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
-            ],   [
-                'data' => '2020-12-14',
-                'descrizione' => 'Controllo del progetto',
-                'ogni_anno' => false,
-                'created_at' => Carbon::now()->toDateTimeString(),
-                'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-12-25',
+                'data' => '2021-12-25',
                 'descrizione' => 'Natale',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),
                 'updated_at' => Carbon::now()->toDateTimeString(),
             ], [
-                'data' => '2020-12-26',
+                'data' => '2021-12-26',
                 'descrizione' => 'Santo Stefano',
                 'ogni_anno' => true,
                 'created_at' => Carbon::now()->toDateTimeString(),

@@ -11,5 +11,5 @@ class Holiday extends Model
         'descrizione',
         'ogni_anno'
     ];
-    public $timestamps = false;
+    // public $timestamps = true;
 }

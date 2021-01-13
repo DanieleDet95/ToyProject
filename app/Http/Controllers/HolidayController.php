@@ -96,6 +96,8 @@ class HolidayController extends Controller
         ]);
 
         $form_data = $request->all();
+        $id = $form_data['id'];
+
         $data = Carbon::parse($form_data['data']);
         $giorno = $data->day;
         $mese = $data->month;
@@ -112,30 +114,48 @@ class HolidayController extends Controller
         elseif ($data->month == 11) $mese = 'Novembre';
         elseif ($data->month == 12) $mese = 'Dicembre';
         $anno = $data->year;
-        $new_holiday = new Holiday();
-        $new_holiday->data = $data;
-        $new_holiday->descrizione = $form_data['descrizione'];
 
-        // Se non é settato ogni anno dare valore 2(no) 
-        if (isset($form_data['ogni_anno'])) {
-            if ($form_data['ogni_anno'] == 1) {
-                $new_holiday->ogni_anno = 1;
+        // Se é la creazione di un nuovo evento
+        if ($id === null) {
+
+            $new_holiday = new Holiday();
+            $new_holiday->data = $data;
+
+            $new_holiday->descrizione = $form_data['descrizione'];
+
+            // Se non é settato ogni anno dare valore 2(no) 
+            if (isset($form_data['ogni_anno'])) {
+                if ($form_data['ogni_anno'] == 1) {
+                    $new_holiday->ogni_anno = 1;
+                } else {
+                    $new_holiday->ogni_anno = 2;
+                }
             } else {
                 $new_holiday->ogni_anno = 2;
             }
+
+            $new_holiday->save();
         } else {
-            $new_holiday->ogni_anno = 2;
+
+            Holiday::where('id', $id)
+                ->update([
+                    'data' => $form_data['data'],
+                    'descrizione' => $form_data['descrizione'],
+                    'ogni_anno' => $form_data['ogni_anno'],
+                ]);
         }
 
-        $new_holiday->created_at = Carbon::now()->toDateTimeString();
-        $new_holiday->updated_at = Carbon::now()->toDateTimeString();
+        // Data da passare a data.copia per la modifica 
+        $copia = $anno . '/' . $data->month . '/' . $giorno;
 
-        $new_holiday->save();
+        $data = $giorno . " " . $mese . " " . $anno;
 
         $send = array(
-            'data' => $giorno . ' ' . $mese . '' . $anno,
+            'id' => $id,
+            'data' => $data,
+            'copia' => $copia,
             'descrizione' => $form_data['descrizione'],
-            'ogni_anno' => $new_holiday->ogni_anno == 1 ? 'Si' : 'No',
+            'ogni_anno' => isset($form_data['ogni_anno']) == 1 ? 'Si' : 'No',
         );
 
         return response()->json($send);
@@ -291,7 +311,7 @@ class HolidayController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update()
+    public function update(Request $request, Holiday $holiday)
     {
         //
     }
