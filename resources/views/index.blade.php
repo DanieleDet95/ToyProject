@@ -146,7 +146,7 @@
               {{-- Per evento --}}
               <input type="checkbox" id="filtroEvento" value="evento">
               <label>Evento</label><br>
-              <input id="evento" name="descrizione" type="text" disabled>
+              <input id="evento" name="filtro" type="text" disabled>
               <div class="anno">
                 <label class="anno">CERCA NEGLI ANNI? </label> <br>
                 <input id="anni_si" type="radio" name="perAnni" value="si" disabled>Si</label>
@@ -230,7 +230,7 @@
                 $anno = $data->year;
               @endphp
               
-            <tr data-copia="{{$holiday->descrizione}}-{{$giorno}} {{$meseNome}} {{$anno}}">
+            <tr id="riga" data-copia="{{$holiday->descrizione}}-{{$giorno}} {{$meseNome}} {{$anno}}">
 
               <td class="id" data-id="{{$holiday->id}}" hidden></td>
 

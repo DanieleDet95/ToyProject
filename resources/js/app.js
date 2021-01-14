@@ -16,8 +16,6 @@ $(document).ready(function() {
     var ogni_anno = $('input[name="ogni_anno"]:checked').val();
     var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
 
-    $('.canc').remove();
-
     // Chiamata ajax per inserire un nuovo evento
     $.ajax({
       type:'POST',
@@ -28,15 +26,28 @@ $(document).ready(function() {
             descrizione: descrizione,
             ogni_anno: ogni_anno},
       success:function(data){
-        $('.lista tr:first').after('<tr data-copia="'+ data.descrizione + "-" + data.data +
-        '"><td class="data" data-giorno="'+ data.copia +'" >'
-              + data.data + '</td><td class="descrizione "data-descrizione="'+ data.descrizione+'">'
-              + data.descrizione +'</td><td class="anno" data-anno="'+ data.ogni_anno +'">'
-              + data.ogni_anno +'</td><td class="rigaCopia">'
-              + $('.rigaCopia').html() +'</td><td class="rigaModifica">'
-              + $('.rigaModifica').html() +'</td><td class="rigaElimina">'
-              + $('.rigaElimina').html() +'</td></tr>');
-        $('.elimina').attr('action', 'http://127.0.0.1:8000/holidays/'+ data.id +'');
+
+        // Salvo in una variabile la riga da clonare
+        // e sostituisco i dati con il nuovo evento
+        var riga = $('#riga').clone();
+        riga.attr('data-copia', data.descrizione + "-" + data.data);
+        riga.children('.id').attr('data-id', data.id);
+        console.log(data.id);
+        riga.children('.data').attr('data-giorno', data.copia);
+        riga.children('.data').text(data.data);
+        riga.children('.descrizione').attr('data-descrizione', data.descrizione);
+        riga.children('.descrizione').text(data.descrizione);
+        riga.children('.anno').attr('data-anno', data.ogni_anno);
+        riga.children('.anno').text(data.ogni_anno);
+        riga.find('.elimina').attr('action', 'http://127.0.0.1:8000/holidays/'+ data.id );
+        console.log(data.id);
+
+        // Rimozione vecchia riga modificata 
+        $('.canc').remove();
+
+        // Inserisco la nuova riga in cima alla tabella
+        $('.lista tr:first').after(riga);
+      
       },
       error: function() {
           alert('Error occured');
@@ -45,6 +56,8 @@ $(document).ready(function() {
 
     // Resettare l'id
     $("input[name=id]").val(null);
+    $("input[name=data]").val('');
+    $("input[name=descrizione]").val('');
     
   });
 
@@ -118,7 +131,7 @@ $(document).ready(function() {
   // Funzione per modificare l'evento
   $('.lista').on('click', ".modifica", function(e) {
 
-    var id = $(this).parents('td').siblings('td.id').attr('data-id')
+    var id = $(this).parents('td').siblings('td.id').attr('data-id');
     var data = $(this).parents('td').siblings('td.data').attr('data-giorno');
     var descrizione = $(this).parents('td').siblings('td.descrizione').attr('data-descrizione');
     var anno = $(this).parents('td').siblings('td.anno').attr('data-anno');
@@ -127,7 +140,6 @@ $(document).ready(function() {
     $('.lista tr').removeClass('canc');
     $(this).parents('tr').addClass("canc");
     
-
     $("input[name=id]").val(id);
     $("input[name=data]").val(data);
     $("input[name=descrizione]").val(descrizione);

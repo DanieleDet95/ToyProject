@@ -135,6 +135,19 @@ class HolidayController extends Controller
             }
 
             $new_holiday->save();
+
+            // Data da passare a data.copia per la modifica 
+            $copia = $anno . '/' . $data->month . '/' . $giorno;
+            $id = $new_holiday->id;
+            $data = $giorno . " " . $mese . " " . $anno;
+
+            $send = array(
+                'id' => $id,
+                'data' => $data,
+                'copia' => $copia,
+                'descrizione' => $form_data['descrizione'],
+                'ogni_anno' => isset($form_data['ogni_anno']) == 1 ? 'Si' : 'No',
+            );
         } else {
 
             Holiday::where('id', $id)
@@ -143,20 +156,20 @@ class HolidayController extends Controller
                     'descrizione' => $form_data['descrizione'],
                     'ogni_anno' => $form_data['ogni_anno'],
                 ]);
+
+            // Data da passare a data.copia per la modifica 
+            $copia = $anno . '/' . $data->month . '/' . $giorno;
+
+            $data = $giorno . " " . $mese . " " . $anno;
+
+            $send = array(
+                'id' => $id,
+                'data' => $data,
+                'copia' => $copia,
+                'descrizione' => $form_data['descrizione'],
+                'ogni_anno' => isset($form_data['ogni_anno']) == 1 ? 'Si' : 'No',
+            );
         }
-
-        // Data da passare a data.copia per la modifica 
-        $copia = $anno . '/' . $data->month . '/' . $giorno;
-
-        $data = $giorno . " " . $mese . " " . $anno;
-
-        $send = array(
-            'id' => $id,
-            'data' => $data,
-            'copia' => $copia,
-            'descrizione' => $form_data['descrizione'],
-            'ogni_anno' => isset($form_data['ogni_anno']) == 1 ? 'Si' : 'No',
-        );
 
         return response()->json($send);
     }
@@ -182,7 +195,7 @@ class HolidayController extends Controller
             $end_mese = $end->month;
         }
 
-        $evento = $request->descrizione;
+        $evento = $request->filtro;
 
         // Se ricerco per anni e definisco le date
         if ($request->perAnni == 'si') {
